@@ -1,0 +1,22 @@
+{
+    "globals": {
+      "react": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+      }
+    },
+    "rules": {
+      "no-shadow": "error",
+      "no-class-assign": "error",
+      "no-else-return": "warn",
+      "no-use-before-define": "error",
+      "no-const-assign": "error",
+      "no-fallthrough": "error",
+      "no-nested-ternary": "warn"
+    }
+  }
