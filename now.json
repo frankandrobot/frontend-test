@@ -1,7 +1,9 @@
 {
   "version": 2,
   "builds": [{ "src": "next.config.js", "use": "@now/next" }],
+  "alias": ["inquisitivedev.com", "local.inquisitivedev.com"],
   "env": {
-    "YELP_KEY": "@yelp_key"
+    "YELP_KEY": "@yelp_key",
+    "PORT": "80"
   }
 }

@@ -32,10 +32,13 @@ introspectSchema(link).then((schema) => {
 });
 
 // Start the Next/Express server
+const proxyAddress = `http${
+  serverSettings.dev ? '' : 's'
+}://local.inquisitivedev.com:${serverSettings.port.toString()}`;
 app.prepare().then(() => {
   const server = express();
   if (serverSettings.dev) {
-    graphQLServer.applyMiddleware({ app: server, cors: { origin: 'http://localhost:3000', credentials: true } });
+    graphQLServer.applyMiddleware({ app: server, cors: { origin: proxyAddress, credentials: true } });
   } else {
     graphQLServer.applyMiddleware({ app: server });
   }
