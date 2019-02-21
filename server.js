@@ -34,7 +34,11 @@ introspectSchema(link).then((schema) => {
 // Start the Next/Express server
 app.prepare().then(() => {
   const server = express();
-  graphQLServer.applyMiddleware({ app: server, cors: { origin: 'http://localhost:3000', credentials: true } });
+  if (serverSettings.dev) {
+    graphQLServer.applyMiddleware({ app: server, cors: { origin: 'http://localhost:3000', credentials: true } });
+  } else {
+    graphQLServer.applyMiddleware({ app: server });
+  }
 
   server.get('/detail/:alias', (req, res) => {
     return app.render(req, res, '/detail', { alias: req.params.alias });
