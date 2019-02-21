@@ -5,5 +5,5 @@
     "YELP_KEY": "@yelp_key",
     "PORT": "80"
   },
-  "builds": [{ "src": "*/server.js", "use": "@now/node-server" }]
+  "builds": [{ "src": "server.js", "use": "@now/node-server" }]
 }
