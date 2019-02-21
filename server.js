@@ -36,6 +36,10 @@ app.prepare().then(() => {
   const server = express();
   graphQLServer.applyMiddleware({ app: server, cors: { origin: 'http://localhost:3000', credentials: true } });
 
+  server.get('/detail/:alias', (req, res) => {
+    return app.render(req, res, '/detail', { alias: req.params.alias });
+  });
+
   server.get('*', (req, res) => {
     return handle(req, res);
   });

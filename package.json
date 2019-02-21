@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/Jared-Dev/superformula-fe-test#readme",
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.7",
+    "@emotion/core": "^10.0.7",
+    "apollo-boost": "^0.1.28",
     "apollo-client": "^2.4.13",
     "apollo-link-context": "^1.0.14",
     "apollo-link-http": "^1.5.11",
@@ -27,11 +30,13 @@
     "apollo-server-express": "^2.4.2",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
     "next": "^8.0.1",
     "node-fetch": "^2.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.2",
     "react-apollo": "^2.4.1",
-    "react-dom": "^16.8.2"
+    "react-dom": "^16.8.2",
+    "react-icons": "^3.4.0"
   }
 }
