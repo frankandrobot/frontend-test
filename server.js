@@ -38,14 +38,18 @@ if (!dev && cluster.isMaster) {
     },
   })).concat(http);
   let graphQLServer;
-  introspectSchema(link).then((schema) => {
-    graphQLServer = new ApolloServer({
-      schema: makeRemoteExecutableSchema({
-        schema,
-        link,
-      }),
+  introspectSchema(link)
+    .then((schema) => {
+      graphQLServer = new ApolloServer({
+        schema: makeRemoteExecutableSchema({
+          schema,
+          link,
+        }),
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
-  });
 
   // Start the Next/Express server
   const proxyAddress = `http${dev ? '' : 's'}://local.inquisitivedev.com:${port.toString()}`;
