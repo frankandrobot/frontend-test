@@ -52,9 +52,8 @@ if (!dev && cluster.isMaster) {
 
   app.prepare().then(() => {
     const server = express();
-    if (dev) {
-      graphQLServer.applyMiddleware({ app: server, cors: { origin: proxyAddress, credentials: true } });
-    } else {
+    graphQLServer.applyMiddleware({ app: server, cors: { origin: proxyAddress, credentials: true } });
+    if (!dev) {
       // Enforce SSL & HSTS in production
       server.use(function(req, res, next) {
         var proto = req.headers['x-forwarded-proto'];
@@ -66,7 +65,6 @@ if (!dev && cluster.isMaster) {
         }
         res.redirect('https://' + req.headers.host + req.url);
       });
-      graphQLServer.applyMiddleware({ app: server });
     }
 
     server.get('/detail/:alias', (req, res) => {
