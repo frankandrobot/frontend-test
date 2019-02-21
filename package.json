@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js -p $PORT",
+    "dev": "node server.js",
     "build": "next build",
     "heroku-postbuild": "next build",
-    "start": "node server.js -p $PORT"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
