@@ -35,6 +35,7 @@ introspectSchema(link).then((schema) => {
 const proxyAddress = `http${
   serverSettings.dev ? '' : 's'
 }://local.inquisitivedev.com:${serverSettings.port.toString()}`;
+
 app.prepare().then(() => {
   const server = express();
   if (serverSettings.dev) {
@@ -51,8 +52,12 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  server.listen(serverSettings.port, (err) => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${serverSettings.port}`);
-  });
+  if (serverSettings.dev) {
+    server.listen(serverSettings.port, (err) => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${serverSettings.port}`);
+    });
+  } else {
+    server.listen();
+  }
 });
