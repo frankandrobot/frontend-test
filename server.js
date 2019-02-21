@@ -6,7 +6,6 @@ const { HttpLink } = require('apollo-link-http');
 const { introspectSchema, makeRemoteExecutableSchema } = require('apollo-server');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-const url = require('url');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
@@ -43,8 +42,6 @@ if (!dev && cluster.isMaster) {
 
   app.prepare().then(async () => {
     const server = express();
-    const parsedUrl = url.parse(req.url, true);
-    const { query } = parsedUrl;
 
     let graphQLServer;
     await introspectSchema(link)
@@ -76,7 +73,7 @@ if (!dev && cluster.isMaster) {
     }
 
     server.get('/detail/:alias/:id?', (req, res) => {
-      return app.render(req, res, '/detail', { alias: query.alias, id: query.id });
+      return app.render(req, res, '/detail', { alias: req.params.alias, id: req.params.id });
     });
 
     // Static files
