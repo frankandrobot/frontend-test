@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server.js -p $PORT",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "heroku-postbuild": "next build",
+    "start": "node server.js -p $PORT"
   },
   "repository": {
     "type": "git",
@@ -28,15 +29,19 @@
     "apollo-link-http": "^1.5.11",
     "apollo-server": "^2.4.2",
     "apollo-server-express": "^2.4.2",
+    "cluster": "^0.7.7",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
-    "next": "^8.0.1",
+    "next": "^7.x",
     "node-fetch": "^2.3.0",
+    "os": "^0.1.1",
+    "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "react": "^16.8.2",
     "react-apollo": "^2.4.1",
     "react-dom": "^16.8.2",
-    "react-icons": "^3.4.0"
+    "react-icons": "^3.4.0",
+    "url": "^0.11.0"
   }
 }
