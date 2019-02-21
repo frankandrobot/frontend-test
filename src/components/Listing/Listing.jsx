@@ -20,7 +20,7 @@ import {
 } from './ListingStyles';
 
 export const Listing = (props) => {
-  const { image, imageAlt, name, alias, rating, category, price, open } = props;
+  const { id, image, imageAlt, name, alias, rating, category, price, open } = props;
   return (
     <div css={WrapperStyles}>
       <div css={ImageWrapperStyles}>
@@ -49,7 +49,7 @@ export const Listing = (props) => {
         </span>
       </div>
       <div css={ButtonStyles}>
-        <Link href={`/detail/${alias}`} prefetch>
+        <Link href={`/detail?alias=${alias}&id=${id}`} as={`/detail/${alias}/${id}`} prefetch>
           <a>LEARN MORE</a>
         </Link>
       </div>
@@ -66,6 +66,7 @@ Listing.defaultProps = {
 Listing.propTypes = {
   alias: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
   name: PropTypes.string.isRequired,

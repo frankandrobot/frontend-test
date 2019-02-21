@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
@@ -12,6 +12,7 @@ const FULL_QUERY = gql`
   ) {
     search(location: "Las Vegas", categories: $categories, limit: 50, price: $price) {
       business {
+        id
         alias
         name
         rating
@@ -43,10 +44,11 @@ export default () => {
         return (
           <ListingGrid>
             {data.search.business.map((biz) => {
-              const { alias, name, rating, price, photos, hours, categories } = biz;
+              const { alias, name, rating, price, photos, hours, categories, id } = biz;
               return (
                 <Listing
                   key={alias}
+                  id={id}
                   alias={alias}
                   name={name}
                   rating={rating}

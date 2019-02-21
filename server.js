@@ -43,6 +43,8 @@ if (!dev && cluster.isMaster) {
 
   app.prepare().then(async () => {
     const server = express();
+    const parsedUrl = url.parse(req.url, true);
+    const { query } = parsedUrl;
 
     let graphQLServer;
     await introspectSchema(link)
@@ -73,8 +75,8 @@ if (!dev && cluster.isMaster) {
       });
     }
 
-    server.get('/detail/:alias', (req, res) => {
-      return app.render(req, res, '/detail', { alias: req.params.alias });
+    server.get('/detail/:alias/:id?', (req, res) => {
+      return app.render(req, res, '/detail', { alias: query.alias, id: query.id });
     });
 
     // Static files
