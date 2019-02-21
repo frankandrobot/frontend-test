@@ -37,25 +37,27 @@ if (!dev && cluster.isMaster) {
       'Access-Control-Allow-Origin': '*',
     },
   })).concat(http);
-  let graphQLServer;
-  introspectSchema(link)
-    .then((schema) => {
-      graphQLServer = new ApolloServer({
-        schema: makeRemoteExecutableSchema({
-          schema,
-          link,
-        }),
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
 
   // Start the Next/Express server
   const proxyAddress = `http${dev ? '' : 's'}://local.inquisitivedev.com:${port.toString()}`;
 
-  app.prepare().then(() => {
+  app.prepare().then(async () => {
     const server = express();
+
+    let graphQLServer;
+    await introspectSchema(link)
+      .then((schema) => {
+        graphQLServer = new ApolloServer({
+          schema: makeRemoteExecutableSchema({
+            schema,
+            link,
+          }),
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
     graphQLServer.applyMiddleware({ app: server, cors: { origin: proxyAddress, credentials: true } });
     if (!dev) {
       // Enforce SSL & HSTS in production
