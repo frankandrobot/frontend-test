@@ -27,6 +27,7 @@ export class MyApp extends App {
     return (
       <Container>
         <Head>
+          <title>Superformula Frontend Test</title>
           <link rel='icon' type='image/png' href='/static/images/SF.png' />
           <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' />>
         </Head>

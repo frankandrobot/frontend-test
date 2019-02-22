@@ -1,23 +1,20 @@
 import React, { Fragment, useState } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { css } from '@emotion/core';
 
 import { CategoryLayout } from '../src/components/Layouts';
 
 import { ListingGrid } from '../src/components/ListingGrid/ListingGrid';
 import Listing from '../src/components/Listing';
 
+import styles from '../src/styles';
+
 const FULL_QUERY = gql`
   query restaurantList($price: String!, $categories: String!, $openNow: Boolean, $limit: Int!, $offset: Int!) {
-    search(
-      location: "Las Vegas"
-      categories: $categories
-      price: $price
-      open_now: $openNow
-      limit: $limit
-      offset: $offset
-    ) {
+    search(location: "Las Vegas", categories: $categories, price: $price, open_now: $openNow, limit: $limit, offset: $offset) {
       business {
+        __typename
         id
         alias
         name
@@ -25,9 +22,11 @@ const FULL_QUERY = gql`
         price
         photos
         hours {
+          __typename
           is_open_now
         }
         categories {
+          __typename
           alias
           title
         }
@@ -115,10 +114,34 @@ export const index = () => {
           if (error) {
             return <p>ERROR! ${error.message}</p>;
           }
+          const {
+            search: { business },
+          } = data;
           return (
             <Fragment>
+              <div
+                css={css`
+                  max-width: calc(100% - ${styles.marginUnit * 2.5}px);
+                  width: ${styles.maxContentWidth};
+                  margin-left: auto;
+                  margin-right: auto;
+                `}
+              >
+                <h2
+                  css={css`
+                    font-weight: 300;
+                    font-size: 34px;
+                    line-height: 40px;
+                    color: ${styles.colors.headingText};
+                    padding-left: ${styles.marginUnit * 1.25}px;
+                    padding-right: ${styles.marginUnit * 1.25}px;
+                  `}
+                >
+                  All Restaurants
+                </h2>
+              </div>
               <ListingGrid>
-                {data.search.map((biz) => {
+                {business.map((biz) => {
                   const { alias, name, rating, price, photos, hours, categories, id } = biz;
                   const open = (hours && hours[0] && hours[0].is_open_now) || false;
                   return (
@@ -136,8 +159,67 @@ export const index = () => {
                   );
                 })}
               </ListingGrid>
-              <div>
-                <button>Load More</button>
+              <div
+                css={css`
+                  color: ${styles.colors.blue};
+                  background-color: transparent;
+                  border: 1px solid ${styles.colors.blue};
+                  text-align: center;
+                  margin-top: -40px;
+                  margin-bottom: 80px;
+                  margin-left: auto;
+                  margin-right: auto;
+                  width: 416px;
+                  max-width: calc(100% - ${styles.marginUnit * 2}px);
+                  display: grid;
+                  grid-template-columns: repeat(2, 1fr);
+                  border-radius: 2px;
+
+                  button {
+                    background-color: transparent;
+                    border: none;
+                    padding-top: ${styles.marginUnit}px;
+                    padding-bottom: ${styles.marginUnit}px;
+                    color: ${styles.colors.blue};
+                    line-height: 16px;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    transform: all 0.35s ease-in;
+
+                    &[disabled] {
+                      cursor: not-allowed;
+                    }
+                    &:hover:not([disabled]) {
+                      font-weight: 500;
+                      color: white;
+                      background-color: ${styles.colors.blue};
+                    }
+
+                    + button {
+                      border-left: 1px solid ${styles.colors.blue};
+                    }
+                  }
+                `}
+              >
+                <button
+                  disabled={queryOffset < businessPerLoad}
+                  onClick={() => {
+                    if (queryOffset < businessPerLoad) {
+                      return false;
+                    }
+                    setQueryOffset(queryOffset - businessPerLoad);
+                  }}
+                >
+                  Prev
+                </button>
+                <button
+                  onClick={() => {
+                    setQueryOffset(queryOffset + businessPerLoad);
+                  }}
+                >
+                  Next
+                </button>
               </div>
             </Fragment>
           );

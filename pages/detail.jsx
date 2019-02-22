@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { css } from '@emotion/core';
+import Head from 'next/head';
 
 import styles from '../src/styles';
 
@@ -81,6 +82,9 @@ export const detail = ({ query: { alias, id } }) => {
 
         return (
           <main>
+            <Head>
+              <title>{name} Details | Superformula Frontend Test</title>
+            </Head>
             <header
               css={css`
                 max-width: calc(100% - ${styles.marginUnit * 2}px);
