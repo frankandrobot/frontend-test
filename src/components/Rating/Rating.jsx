@@ -23,9 +23,9 @@ const numberEmptyStars = ({ maxStars, rating }) => {
   return maxStars - numberFullStars(rating) - numberPartialStars(rating);
 };
 
-export const Rating = ({ maxStars, rating }) => {
+export const Rating = ({ maxStars, rating, fontSize = '21px' }) => {
   return (
-    <IconContext.Provider value={{ color: SiteStyles.colors.blue, size: '21px' }}>
+    <IconContext.Provider value={{ color: SiteStyles.colors.blue, size: fontSize }}>
       <span
         css={css`
           & > svg {

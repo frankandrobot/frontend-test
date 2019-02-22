@@ -2,7 +2,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { css } from '@emotion/core';
 
+import styles from '../src/styles';
+
+import InfoRow from '../src/components/InfoRow';
 import Rating from '../src/components/Rating';
+
+import MediaRow from '../src/components/DetailView/MediaRow';
+import ReviewRow from '../src/components/DetailView/ReviewRow';
 
 const RESTAURANT_QUERY = gql`
   query restaurantDetail($id: String!) {
@@ -48,26 +54,6 @@ const RESTAURANT_QUERY = gql`
   }
 `;
 
-const addReview = (review) => {
-  return (
-    <div key={review.id}>
-      <img src={review.user.image_url} alt={`${review.user.name} portrait`} />
-      <span>{review.user.name}</span>
-      <span>{review.time_created}</span>
-      <Rating rating={review.rating} />
-      <span>
-        {review.text}
-        {review.text.indexOf('...') !== -1 && (
-          <a href={review.url} target='_blank'>
-            {' '}
-            read more
-          </a>
-        )}
-      </span>
-    </div>
-  );
-};
-
 export const detail = ({ query: { alias, id } }) => {
   return (
     <Query query={RESTAURANT_QUERY} variables={{ id }}>
@@ -90,40 +76,61 @@ export const detail = ({ query: { alias, id } }) => {
           rating,
           review_count,
           reviews,
-          reviews2,
-          reviews3,
         } = data.business;
         const open = hours[0] && hours[0].is_open_now;
 
         return (
-          <div>
-            <h1>{name}</h1>
-            <Rating rating={rating} />
-            <div>
-              <span title={categories[0].title || 'Food'}>{categories[0].title || 'Food'}</span>
-              <span>&nbsp;&nbsp;•&nbsp;&nbsp;{price}</span>
-              <span
-                css={[
-                  css`
-                    &:before {
-                      background-color: ${open ? 'green' : 'red'};
-                    }
-                  `,
-                ]}
+          <main>
+            <header
+              css={css`
+                max-width: calc(100% - ${styles.marginUnit * 2}px);
+                width: ${styles.maxContentWidth};
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: ${styles.marginUnit * 2.25}px;
+                padding-left: ${styles.marginUnit}px;
+                padding-right: ${styles.marginUnit}px;
+                @media screen and (max-width: ${styles.detailPage.mobileWidth}) {
+                }
+              `}
+            >
+              <h1
+                css={css`
+                  font-weight: 300;
+                  font-size: 54px;
+                  line-height: 64px;
+                  margin-bottom: 16px;
+                `}
               >
-                {open ? 'Open Now' : 'Closed'}
-              </span>
-            </div>
+                {name}
+              </h1>
+              <div
+                css={css`
+                  margin-bottom: ${styles.marginUnit}px;
+                `}
+              >
+                <Rating rating={rating} fontSize='30px' />
+              </div>
+              <InfoRow category={categories[0].title || 'Food'} price={price} open={open} fontSize={22} />
+            </header>
+            <hr
+              css={css`
+                @media screen and (max-width: ${styles.detailPage.mobileWidth}) {
+                  display: none;
+                }
+              `}
+            />
+            <MediaRow
+              name={name}
+              lat={latitude}
+              lng={longitude}
+              image={photos[0]}
+              open={open}
+              address={location.formatted_address.replace('\n', ' ')}
+            />
             <hr />
-            <span>[THE MAP]</span>
-            <span>{location.formatted_address.replace('\n', ' ')}</span>
-            {photos[0] && <img src={photos[0]} alt={`${name} photo`} />}
-            <hr />
-            <span>
-              {review_count} {review_count === 1 ? 'Review' : 'Reviews'}
-            </span>
-            <div>{reviews && reviews.length > 0 && reviews.map(addReview)}</div>
-          </div>
+            <ReviewRow numReviews={review_count} reviews={reviews} />
+          </main>
         );
       }}
     </Query>

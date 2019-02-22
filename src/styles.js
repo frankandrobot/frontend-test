@@ -1,10 +1,4 @@
 export const styles = {
-  breakPoints: {
-    smMax: '612px',
-    mdMin: '1024px',
-    mdMax: '1635px',
-    lg: '1636px',
-  },
   colors: {
     black: '#000000',
     blue: '#002B56',
@@ -18,6 +12,17 @@ export const styles = {
 
     grayBorderColor: '#E6E6E6',
     secondaryBorderColor: '#002B56',
+  },
+  maxContentWidth: '1400px',
+  categoryPage: {
+    minGridWidth: 740,
+    maxColumnWidth: 739,
+  },
+  detailPage: {
+    mobileWidth: '600px',
+    minNonMobileWidth: '601px',
+    minWidthDefinedGrid: '1500px',
+    minHorizontalReviewWidth: 1000,
   },
   marginUnit: 16,
 };

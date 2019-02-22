@@ -32,7 +32,6 @@ export const CategoryStyles = css`
 `;
 
 export const HeadingStyles = css`
-  font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 20px;
   grid-area: name;
@@ -98,7 +97,6 @@ export const StatusStyles = css`
 
 export const WrapperStyles = css`
   display: grid;
-  font-family: 'Roboto', sans-serif;
   grid-template-areas:
     'image'
     'name'

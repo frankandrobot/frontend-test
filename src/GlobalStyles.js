@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import styles from './styles';
 
 export const GlobalStyles = css`
   html,
@@ -82,12 +83,19 @@ export const GlobalStyles = css`
   mark,
   audio,
   video {
-    font-family: 'Fahkwang', sans-serif;
-    margin: 0;
-    padding: 0;
     border: 0;
+    font-family: 'Roboto', sans-serif;
     font-size: 100%;
-    font: inherit;
+    font-stretch: inherit;
+    font-style: inherit;
+    font-variant-ligatures: inherit;
+    font-variant-caps: inherit;
+    font-variant-numeric: inherit;
+    font-variant-east-asian: inherit;
+    font-weight: inherit;
+    margin: 0;
+    line-height: inherit;
+    padding: 0;
     vertical-align: baseline;
   }
 
@@ -106,6 +114,7 @@ export const GlobalStyles = css`
   }
   body {
     line-height: 1;
+    padding-top: ${styles.marginUnit * 2}px;
   }
   ol,
   ul {
@@ -130,3 +139,5 @@ export const GlobalStyles = css`
   html {
   }
 `;
+
+export default GlobalStyles;
