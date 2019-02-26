@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 
 import styles from '../../styles';
 
-export const ToggleCheckItem = ({ text, isToggled, onToggleHandler, asRadio }) => {
+export const ToggleCheckItem = ({ text, id, isToggled, onToggleHandler, asRadio }) => {
   // ! There is the possibility that this won't be unique as is, but given the data it will be in these scenarios.
   const slug = `${text
     .toLowerCase()
@@ -43,9 +43,9 @@ export const ToggleCheckItem = ({ text, isToggled, onToggleHandler, asRadio }) =
         }
       `;
   return (
-    <div data-checkbox-item onClick={onToggleHandler}>
+    <div data-checkbox-item>
       <label
-        htmlFor={slug}
+        htmlFor={id || slug}
         css={css`
           font-weight: 500;
           font-size: 16px;
@@ -77,8 +77,8 @@ export const ToggleCheckItem = ({ text, isToggled, onToggleHandler, asRadio }) =
           display: none;
         `}
         type='checkbox'
-        name={slug}
-        id={slug}
+        name={id || slug}
+        id={id || slug}
         onChange={onToggleHandler}
         checked={isToggled}
       />

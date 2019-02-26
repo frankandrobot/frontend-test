@@ -22,6 +22,8 @@ export const CategoryFilterRow = () => {
     priceFilters,
     togglePriceFilter,
     clearFilters,
+    resetPriceFilters,
+    resetCategoryFilters,
   } = useContext(SuperProvider.Context);
 
   return (
@@ -49,6 +51,7 @@ export const CategoryFilterRow = () => {
             font-weight: 500;
             font-size: 16px;
             line-height: 24px;
+            padding-top: 8px;
           `}
         >
           Filter By:
@@ -63,6 +66,7 @@ export const CategoryFilterRow = () => {
             css={css`
               border-bottom: 1px solid ${styles.colors.grayBorderColor};
               padding-bottom: ${styles.marginUnit / 2}px;
+              margin-top: 6px;
             `}
           >
             <ToggleCheckItem
@@ -84,6 +88,7 @@ export const CategoryFilterRow = () => {
               <ToggleCheckItem
                 key={price.value}
                 text={price.label}
+                id={`price-${price.value}`}
                 isToggled={(!isPriceFiltered() && price.label === 'All') || price.isFilter}
                 onToggleHandler={() => {
                   if (price.value === '') {
@@ -102,12 +107,15 @@ export const CategoryFilterRow = () => {
               <ToggleCheckItem
                 key={category.alias}
                 text={category.name}
+                id={`category-${category.name
+                  .toLowerCase()
+                  .replace(/ /g, '-')
+                  .replace(/[^\w-]+/g, '')}`}
                 isToggled={(!isCategoryFiltered() && category.name === 'All') || category.isFilter}
                 onToggleHandler={() => {
                   if (category.name === 'All') {
                     resetCategoryFilters();
                   } else {
-                    console.log(category);
                     toggleCategoryFilter({ ...category });
                   }
                 }}

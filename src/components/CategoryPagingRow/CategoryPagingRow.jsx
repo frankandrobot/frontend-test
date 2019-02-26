@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { css } from '@emotion/core';
 
 import SuperProvider from '../../context/SuperProvider';
 import styles from '../../styles';
 
 export const CategoryPagingRow = ({ total }) => {
-  const { businessPerLoad, queryOffset, setQueryOffset } = SuperProvider.Context;
+  const { businessPerLoad, queryOffset, setQueryOffset } = useContext(SuperProvider.Context);
   return (
     <Fragment>
       <div

@@ -10,7 +10,6 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\server.js",
             "smartStep": true,
-
         }
     ]
 }

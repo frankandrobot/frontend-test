@@ -10,6 +10,11 @@ import styles from '../../styles';
 const ButtonStyles = css`
   grid-area: button;
   display: grid;
+  transition: transform 0.2s ease-in;
+
+  &:hover {
+    transform: scale(1.1) translateY(-3%);
+  }
 
   a {
     align-self: end;
