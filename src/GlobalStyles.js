@@ -135,8 +135,17 @@ export const GlobalStyles = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
-
-  html {
+  em {
+    font-style: italic;
+  }
+  strong {
+    font-weight: bold;
+  }
+  button {
+    border: none;
+    border-radius: ${styles.borderRadius};
+    background: none;
+    cursor: pointer;
   }
 `;
 

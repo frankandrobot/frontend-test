@@ -25,6 +25,7 @@ export const styles = {
     minHorizontalReviewWidth: 1000,
   },
   marginUnit: 16,
+  borderRadius: '2px',
 };
 
 export default styles;

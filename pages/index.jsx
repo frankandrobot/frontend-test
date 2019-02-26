@@ -1,121 +1,53 @@
-import React, { Fragment, useState } from 'react';
-import gql from 'graphql-tag';
+import React, { Fragment, useContext } from 'react';
 import { Query } from 'react-apollo';
 import { css } from '@emotion/core';
 
 import { CategoryLayout } from '../src/components/Layouts';
-
 import { ListingGrid } from '../src/components/ListingGrid/ListingGrid';
 import Listing from '../src/components/Listing';
+import Loading from '../src/components/Loading';
+import CategoryPagingRow from '../src/components/CategoryPagingRow';
 
+import SuperProvider from '../src/context/SuperProvider';
 import styles from '../src/styles';
 
-const FULL_QUERY = gql`
-  query restaurantList($price: String!, $categories: String!, $openNow: Boolean, $limit: Int!, $offset: Int!) {
-    search(location: "Las Vegas", categories: $categories, price: $price, open_now: $openNow, limit: $limit, offset: $offset) {
-      business {
-        __typename
-        id
-        alias
-        name
-        rating
-        price
-        photos
-        hours {
-          __typename
-          is_open_now
-        }
-        categories {
-          __typename
-          alias
-          title
-        }
-      }
-    }
-  }
-`;
-
-const baseCategoryFilter = [
-  { alias: 'tradamerican,newamerican', name: 'America', isFilter: false },
-  { alias: 'italian', name: 'Italian', isFilter: false },
-  { alias: 'seafood', name: 'Seafood', isFilter: false },
-  { alias: 'steak', name: 'Steak', isFilter: false },
-  { alias: 'japanese', name: 'Japanese', isFilter: false },
-  { alias: 'mexican', name: 'Mexican', isFilter: false },
-  { alias: 'thai', name: 'Thai', isFilter: false },
-];
-const basePriceFilter = [
-  {
-    value: '1',
-    label: '$',
-    isFilter: false,
-  },
-  {
-    value: '2',
-    label: '$$',
-    isFilter: false,
-  },
-  {
-    value: '3',
-    label: '$$$',
-    isFilter: false,
-  },
-  {
-    value: '4',
-    label: '$$$$',
-    isFilter: false,
-  },
-];
-
 export const index = () => {
-  const businessPerLoad = 20;
-
-  const [onlyShowOpen, updateShowOpen] = useState(false);
-  const [queryOffset, setQueryOffset] = useState(0);
-  const [categoryFilters, updateCategoryFilters] = useState(baseCategoryFilter);
-  const [priceFilters, updatePriceFilters] = useState(basePriceFilter);
-
+  const context = useContext(SuperProvider.Context);
+  const {
+    categoryFilterValue,
+    priceFilterValue,
+    businessPerLoad,
+    onlyShowOpen,
+    queryOffset,
+    isCategoryFiltered,
+    CATEGORY_QUERY,
+  } = context;
   return (
-    <CategoryLayout
-      onlyShowOpen={onlyShowOpen}
-      updateShowOpen={updateShowOpen}
-      queryOffset={queryOffset}
-      setQueryOffset={setQueryOffset}
-      categoryFilters={categoryFilters}
-      updateCategoryFilters={updateCategoryFilters}
-      priceFilters={priceFilters}
-      updatePriceFilters={updatePriceFilters}
-    >
+    <CategoryLayout>
       <Query
-        query={FULL_QUERY}
+        query={CATEGORY_QUERY}
         variables={{
           limit: businessPerLoad,
           offset: queryOffset,
           openNow: onlyShowOpen,
-          price: priceFilters.some((price) => price.isFilter)
-            ? priceFilters
-                .filter((price) => price.isFilter)
-                .map((price) => price.alias)
-                .join(',')
-            : '',
-          categories: categoryFilters.some((category) => category.isFilter)
-            ? categoryFilters
-                .filter((category) => category.isFilter)
-                .map((category) => category.alias)
-                .join(',')
-            : categoryFilters.map((category) => category.alias).join(','),
+          price: priceFilterValue(),
+          categories: categoryFilterValue(),
         }}
         fetchPolicy='cache-and-network'
       >
-        {({ loading, error, data, fetchMore }) => {
+        {({ loading, error, data }) => {
           if (loading) {
-            return <p>Loading....</p>;
+            return <Loading />;
           }
           if (error) {
-            return <p>ERROR! ${error.message}</p>;
+            return (
+              <p>
+                <strong>OH SNAP!</strong> {error.message}
+              </p>
+            );
           }
           const {
-            search: { business },
+            search: { business, total },
           } = data;
           return (
             <Fragment>
@@ -144,6 +76,10 @@ export const index = () => {
                 {business.map((biz) => {
                   const { alias, name, rating, price, photos, hours, categories, id } = biz;
                   const open = (hours && hours[0] && hours[0].is_open_now) || false;
+                  let categoryName = (categories && categories[0] && categories[0].title) || 'Food';
+                  if (isCategoryFiltered()) {
+                    const selectedCategory = categories.find((category) => categoryFilterValue().includes(category.alias));
+                  }
                   return (
                     <Listing
                       key={alias}
@@ -153,74 +89,13 @@ export const index = () => {
                       rating={rating}
                       price={price}
                       open={open}
-                      category={(categories && categories[0] && categories[0].title) || 'Food'}
+                      category={categoryName}
                       image={(photos && photos[0]) || 'https://source.unsplash.com/random/304x228'}
                     />
                   );
                 })}
               </ListingGrid>
-              <div
-                css={css`
-                  color: ${styles.colors.blue};
-                  background-color: transparent;
-                  border: 1px solid ${styles.colors.blue};
-                  text-align: center;
-                  margin-top: -40px;
-                  margin-bottom: 80px;
-                  margin-left: auto;
-                  margin-right: auto;
-                  width: 416px;
-                  max-width: calc(100% - ${styles.marginUnit * 2}px);
-                  display: grid;
-                  grid-template-columns: repeat(2, 1fr);
-                  border-radius: 2px;
-
-                  button {
-                    background-color: transparent;
-                    border: none;
-                    padding-top: ${styles.marginUnit}px;
-                    padding-bottom: ${styles.marginUnit}px;
-                    color: ${styles.colors.blue};
-                    line-height: 16px;
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    transform: all 0.35s ease-in;
-
-                    &[disabled] {
-                      cursor: not-allowed;
-                    }
-                    &:hover:not([disabled]) {
-                      font-weight: 500;
-                      color: white;
-                      background-color: ${styles.colors.blue};
-                    }
-
-                    + button {
-                      border-left: 1px solid ${styles.colors.blue};
-                    }
-                  }
-                `}
-              >
-                <button
-                  disabled={queryOffset < businessPerLoad}
-                  onClick={() => {
-                    if (queryOffset < businessPerLoad) {
-                      return false;
-                    }
-                    setQueryOffset(queryOffset - businessPerLoad);
-                  }}
-                >
-                  Prev
-                </button>
-                <button
-                  onClick={() => {
-                    setQueryOffset(queryOffset + businessPerLoad);
-                  }}
-                >
-                  Next
-                </button>
-              </div>
+              <CategoryPagingRow total={total} />
             </Fragment>
           );
         }}

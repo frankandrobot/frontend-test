@@ -1,9 +1,7 @@
-import gql from 'graphql-tag';
+import React, { useContext } from 'react';
 import { Query } from 'react-apollo';
 import { css } from '@emotion/core';
 import Head from 'next/head';
-
-import styles from '../src/styles';
 
 import InfoRow from '../src/components/InfoRow';
 import Rating from '../src/components/Rating';
@@ -11,53 +9,13 @@ import Rating from '../src/components/Rating';
 import MediaRow from '../src/components/DetailView/MediaRow';
 import ReviewRow from '../src/components/DetailView/ReviewRow';
 
-const RESTAURANT_QUERY = gql`
-  query restaurantDetail($id: String!) {
-    business(id: $id) {
-      name
-      rating
-      categories {
-        title
-        alias
-      }
-      price
-      hours {
-        is_open_now
-      }
-      location {
-        address1
-        address2
-        address3
-        city
-        state
-        postal_code
-        formatted_address
-      }
-      coordinates {
-        latitude
-        longitude
-      }
-      photos
-      review_count
-      reviews(limit: 3, offset: 0) {
-        id
-        rating
-        text
-        time_created
-        url
-        user {
-          id
-          image_url
-          name
-        }
-      }
-    }
-  }
-`;
+import { SuperProvider } from '../src/context/SuperProvider';
+import styles from '../src/styles';
 
 export const detail = ({ query: { alias, id } }) => {
+  const context = useContext(SuperProvider.Context);
   return (
-    <Query query={RESTAURANT_QUERY} variables={{ id }}>
+    <Query query={context.DETAIL_QUERY} variables={{ id }}>
       {({ loading, error, data }) => {
         if (loading) {
           return <p>Loading....</p>;

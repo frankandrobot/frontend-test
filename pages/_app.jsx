@@ -7,6 +7,7 @@ import fetch from 'node-fetch';
 import { Global } from '@emotion/core';
 
 import GlobalStyles from '../src/GlobalStyles';
+import { SuperProvider } from '../src/context/SuperProvider';
 
 const client = new ApolloClient({ fetch });
 
@@ -26,15 +27,17 @@ export class MyApp extends App {
 
     return (
       <Container>
-        <Head>
-          <title>Superformula Frontend Test</title>
-          <link rel='icon' type='image/png' href='/static/images/SF.png' />
-          <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' />>
-        </Head>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-        <Global styles={GlobalStyles} />
+        <SuperProvider>
+          <Head>
+            <title>Superformula Frontend Test</title>
+            <link rel='icon' type='image/png' href='/static/images/SF.png' />
+            <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' />>
+          </Head>
+          <ApolloProvider client={client}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+          <Global styles={GlobalStyles} />
+        </SuperProvider>
       </Container>
     );
   }

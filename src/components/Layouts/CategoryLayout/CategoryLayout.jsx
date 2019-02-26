@@ -1,21 +1,11 @@
 import React, { Fragment } from 'react';
 import { css } from '@emotion/core';
 
-import CategoryFilter from '../../CategoryFilter';
+import CategoryFilterRow from '../../CategoryFilterRow';
 
 import styles from '../../../styles';
 
-export const CategoryLayout = ({
-  children,
-  onlyShowOpen,
-  updateShowOpen,
-  queryOffset,
-  setQueryOffset,
-  categoryFilters,
-  updateCategoryFilters,
-  priceFilters,
-  updatePriceFilters,
-}) => (
+export const CategoryLayout = ({ children }) => (
   <Fragment>
     <div
       css={css`
@@ -49,8 +39,7 @@ export const CategoryLayout = ({
           font-size: 22px;
         `}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni neque doloribus voluptatem laboriosam voluptates animi minima libero, eligendi
-        mollitia! Officia, id. Excepturi maiores, ullam nulla voluptatum ut nam voluptate esse.
+        Take a look around and find your next place to eat in beautiful Las Vegas!
       </p>
     </div>
     <div
@@ -62,16 +51,7 @@ export const CategoryLayout = ({
         padding-bottom: ${styles.marginUnit * 1.25}px;
       `}
     >
-      <CategoryFilter
-        onlyShowOpen={onlyShowOpen}
-        updateShowOpen={updateShowOpen}
-        queryOffset={queryOffset}
-        setQueryOffset={setQueryOffset}
-        categoryFilters={categoryFilters}
-        updateCategoryFilters={updateCategoryFilters}
-        priceFilters={priceFilters}
-        updatePriceFilters={updatePriceFilters}
-      />
+      <CategoryFilterRow />
     </div>
     {children}
   </Fragment>
