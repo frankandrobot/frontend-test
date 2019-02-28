@@ -77,4 +77,5 @@ export default class RadioCheckbox extends React.Component {
 RadioCheckbox.propTypes = {
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+  value: PropTypes.bool.isRequired,
 };

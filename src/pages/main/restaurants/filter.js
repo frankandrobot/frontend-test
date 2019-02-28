@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import PropTypes from "prop-types";
 
 import RadioCheckbox from "../../../components/ui/checkbox_radio";
 import Dropdown from "../../../components/ui/dropdown";
@@ -43,18 +44,27 @@ const Price = styled.span`
 
 const Category = styled.select``;
 
-export default function Filter() {
+export default function Filter(props) {
+  const { openNowValue, onChangeOpenNow } = props;
   return (
     <Container>
       <FilterText>Filter By:</FilterText>
       <OpenNow>
-        <RadioCheckbox id="open-now" />
+        <RadioCheckbox
+          id="open-now"
+          value={openNowValue}
+          onChange={onChangeOpenNow}
+        />
         <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
       </OpenNow>
     </Container>
   );
 }
 
+Filter.propTypes = {
+  openNowValue: PropTypes.bool.isRequired,
+  onChangeOpenNow: PropTypes.func.isRequired,
+};
 /*
 
         <Dropdown title={<Price>Price</Price>} width={"10em"} />
