@@ -2,20 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const Title = styled.h1`
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-weight: 300;
+  font-family: ${props => props.theme.fontFamily};
+  font-weight: ${props => props.theme.fontWeightLight};
   font-size: 54px;
-  color: #333333;
+  color: ${props => props.theme.colorHeading};
   margin: 0;
   padding: 0;
   margin-bottom: 24px;
 `;
 
 const Description = styled.p`
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-weight: 300;
+  font-family: ${props => props.theme.fontFamily};
+  font-weight: ${props => props.theme.fontWeightLight};
   font-size: 22px;
-  color: #666666;
+  color: ${props => props.theme.colorText};
   margin: 0;
   padding: 0;
   margin-bottom: 36px;
