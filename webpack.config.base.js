@@ -1,4 +1,9 @@
 const path = require("path");
+const webpack = require("webpack");
+const fs = require("fs");
+
+const apiKey = fs.readFileSync("./api.key");
+const apiUrl = fs.readFileSync("./api.url");
 
 module.exports = {
   entry: "./src/index.js",
@@ -30,5 +35,10 @@ module.exports = {
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    new webpack.DefinePlugin({
+      __API_URL__: JSON.stringify(apiUrl.toString()),
+      __API_KEY__: JSON.stringify(apiKey.toString()),
+    }),
+  ],
 };
