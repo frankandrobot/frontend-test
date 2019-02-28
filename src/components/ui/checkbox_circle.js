@@ -54,17 +54,36 @@ const Checkbox = styled.label`
   }
 `;
 
-export default function Component(props) {
-  const { id } = props;
+export default class CircleCheckbox extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <Container htmlFor={id}>
-      <Input type="checkbox" defaultChecked={false} id={id} />
-      <Checkbox htmlFor={id} />
-    </Container>
-  );
+  handleChange = event => {
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked);
+    }
+  };
+
+  render() {
+    const { id, checked } = this.props;
+
+    return (
+      <Container htmlFor={id}>
+        <Input
+          type="checkbox"
+          id={id}
+          checked={checked}
+          onChange={this.handleChange}
+        />
+        <Checkbox htmlFor={id} />
+      </Container>
+    );
+  }
 }
 
-Component.propTypes = {
+CircleCheckbox.propTypes = {
   id: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool.isRequired,
 };
