@@ -44,21 +44,16 @@ const RadioButton = styled.label`
 export default class RadioCheckbox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { checked: false };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ checked: event.target.checked });
+  handleChange = event => {
     if (this.props.onChange) {
       this.props.onChange(event.target.checked);
     }
-  }
+  };
 
   render() {
-    const { id } = this.props;
-    const { checked } = this.state;
+    const { id, checked } = this.props;
 
     return (
       <Container>
@@ -77,5 +72,5 @@ export default class RadioCheckbox extends React.Component {
 RadioCheckbox.propTypes = {
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  value: PropTypes.bool.isRequired,
+  checked: PropTypes.bool.isRequired,
 };
