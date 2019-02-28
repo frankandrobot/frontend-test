@@ -9,7 +9,6 @@ const presets = [
         "last 3 chrome version and " +
         "last 3 safari version and " +
         "last 3 firefox version and " +
-        "ie 10 and " +
         "ie 11 and " +
         "edge >= 1",
     },
@@ -25,7 +24,6 @@ const plugins = [
       pure: true,
     },
   ],
-  "react-hot-loader/babel",
   // let [a, b, ...rest] = arr;
   "@babel/plugin-transform-destructuring",
   // makes writing classes simpler
