@@ -7,6 +7,7 @@ import axios from "axios";
 
 import About from "./about";
 import Filter from "./filter";
+import toMap from "../../../utils/toMap";
 
 const Bar = styled.hr`
   color: ${props => props.theme.colorLine}; /* old IE */
@@ -31,14 +32,25 @@ function filterByOpenNow(bizzes, openNowValue) {
 }
 
 function filterByPrice(bizzes, priceFilters) {
-  const prices = priceFilters.reduce(
-    (total, cur) => Object.assign(total, { [cur]: true }),
-    {}
-  );
+  const prices = toMap(priceFilters);
   if (prices.all) {
     return bizzes;
   }
   return bizzes.filter(biz => prices[biz.price]);
+}
+
+export function allDropdownBehavior(prevFilters, nextFilters) {
+  if (nextFilters.length === 0) {
+    // when checking nothing it becomes "all"
+    return ["all"];
+  } else if (prevFilters[0] === "all" && nextFilters.length > 1) {
+    // uncheck "all" when it was checked but now checked something else
+    return nextFilters.filter(f => f !== "all");
+  } else if (prevFilters.length > 1 && nextFilters.indexOf("all") >= 0) {
+    // uncheck everything except "all" when checked
+    return ["all"];
+  }
+  return nextFilters
 }
 
 export default function Resturants() {
