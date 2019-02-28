@@ -21,7 +21,7 @@ const Description = styled.p`
   margin-bottom: 36px;
 `;
 
-export default React.memo(function About() {
+export default function About() {
   return (
     <section>
       <Title>Restaurants</Title>
@@ -31,4 +31,4 @@ export default React.memo(function About() {
       </Description>
     </section>
   );
-});
+}
