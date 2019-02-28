@@ -11,6 +11,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-styled-components": "^1.10.0",
     "css-loader": "^2.1.0",
@@ -18,8 +19,10 @@
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.1.0",
     "local-cors-proxy": "^1.0.2",
     "prettier": "1.16.4",
+    "react-test-renderer": "^16.8.3",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
   },
@@ -28,6 +31,7 @@
   },
   "scripts": {
     "proxy": "lcp --proxyUrl https://api.yelp.com",
+    "test": "jest",
     "build:dev": "webpack --config webpack.config.dev.js"
   },
   "dependencies": {

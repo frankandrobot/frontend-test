@@ -7,6 +7,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
+    "plugin:jest/recommended",
   ],
   globals: {
     Atomics: "readonly",
@@ -19,6 +20,6 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "jest"],
   rules: {},
 };
