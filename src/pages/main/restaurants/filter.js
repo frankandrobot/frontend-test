@@ -20,16 +20,19 @@ const FilterText = styled.span`
 `;
 
 const OpenNow = styled.div`
-  border-bottom: 1px solid #c8c8c8;
+  display: inline-block;
   margin: 0;
   padding: 0;
+  border-bottom: 1px solid ${props => props.theme.colorFilterBottomBar};
+  margin-right: ${props => props.theme.marginRightFilter};
   padding-bottom: 6px;
   display: inline-block;
 `;
 
 const OpenNowText = styled.label`
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 16px;
+  font-family: ${props => props.theme.fontFamily};
+  font-size: ${props => props.theme.fontSizeFilter};
+  color: ${props => props.theme.colorFilterText};
   margin-left: 8px;
 `;
 
@@ -44,14 +47,15 @@ export default function Filter() {
   return (
     <Container>
       <FilterText>Filter By:</FilterText>
+      <OpenNow>
+        <RadioCheckbox id="open-now" />
+        <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
+      </OpenNow>
     </Container>
   );
 }
 
 /*
-<OpenNow>
-          <RadioCheckbox id="open-now" />
-          <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
-        </OpenNow>
+
         <Dropdown title={<Price>Price</Price>} width={"10em"} />
         */

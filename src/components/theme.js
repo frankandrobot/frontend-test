@@ -8,6 +8,8 @@ export default {
   colorLine: "#e6e6e6",
   /* filter */
   colorFilterBy: "#606060",
+  colorFilterText: "#002B56",
   fontSizeFilter: "16px",
   marginRightFilter: "25px",
+  colorFilterBottomBar: "#c8c8c8",
 };
