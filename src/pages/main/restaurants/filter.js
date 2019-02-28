@@ -37,35 +37,42 @@ const OpenNowText = styled.label`
   margin-left: 8px;
 `;
 
-const Price = styled.span`
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 16px;
-`;
+const prices = ["All", "$", "$$", "$$$", "$$$$"];
 
 const Category = styled.select``;
 
 export default function Filter(props) {
-  const { openNowValue, onChangeOpenNow } = props;
+  const {
+    openNow,
+    onChangeOpenNow,
+    priceFilter,
+    onChangePriceFilter,
+  } = props;
   return (
     <Container>
       <FilterText>Filter By:</FilterText>
       <OpenNow>
         <RadioCheckbox
           id="open-now"
-          value={openNowValue}
+          checked={openNow}
           onChange={onChangeOpenNow}
         />
         <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
       </OpenNow>
+      <Dropdown
+        width={"10em"}
+        title={"Price"}
+        options={prices}
+        selected={priceFilter}
+        onChange={onChangePriceFilter}
+      />
     </Container>
   );
 }
 
 Filter.propTypes = {
-  openNowValue: PropTypes.bool.isRequired,
+  openNow: PropTypes.bool.isRequired,
   onChangeOpenNow: PropTypes.func.isRequired,
+  priceFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChangePriceFilter: PropTypes.func.isRequired,
 };
-/*
-
-        <Dropdown title={<Price>Price</Price>} width={"10em"} />
-        */

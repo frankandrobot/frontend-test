@@ -18,14 +18,14 @@ const Bar = styled.hr`
 
 const Main = styled.main``;
 
-function filter(bizzes, { priceFilter, openNowValue }) {
-  bizzes = filterByOpenNow(bizzes, openNowValue);
+function filter(bizzes, { priceFilter, openNow }) {
+  bizzes = filterByOpenNow(bizzes, openNow);
   bizzes = filterByPrice(bizzes, priceFilter);
   return bizzes;
 }
 
-function filterByOpenNow(bizzes, openNowValue) {
-  if (openNowValue) {
+function filterByOpenNow(bizzes, openNow) {
+  if (openNow) {
     return bizzes.filter(biz => biz.is_closed === false);
   }
   return bizzes;
@@ -33,7 +33,7 @@ function filterByOpenNow(bizzes, openNowValue) {
 
 function filterByPrice(bizzes, priceFilters) {
   const prices = toMap(priceFilters);
-  if (prices.all) {
+  if (prices.All) {
     return bizzes;
   }
   return bizzes.filter(biz => prices[biz.price]);
@@ -41,14 +41,14 @@ function filterByPrice(bizzes, priceFilters) {
 
 export function allDropdownBehavior(prevFilters, nextFilters) {
   if (nextFilters.length === 0) {
-    // when checking nothing it becomes "all"
-    return ["all"];
-  } else if (prevFilters[0] === "all" && nextFilters.length > 1) {
-    // uncheck "all" when it was checked but now checked something else
-    return nextFilters.filter(f => f !== "all");
-  } else if (prevFilters.length > 1 && nextFilters.indexOf("all") >= 0) {
-    // uncheck everything except "all" when checked
-    return ["all"];
+    // when checking nothing it becomes "All"
+    return ["All"];
+  } else if (prevFilters[0] === "All" && nextFilters.length > 1) {
+    // uncheck "All" when it was checked but now checked something else
+    return nextFilters.filter(f => f !== "All");
+  } else if (prevFilters.length > 1 && nextFilters.indexOf("All") >= 0) {
+    // uncheck everything except "All" when checked
+    return ["All"];
   }
   return nextFilters
 }
@@ -59,11 +59,11 @@ export default function Resturants() {
   // these are the filtered bizzes
   const [curBizzes, setCurBizzes] = useState([]);
   // the OpenNow filter
-  const [openNowValue, setOpenNowValue] = useState(false);
+  const [openNow, setOpenNow] = useState(false);
   // the Price filters
-  const [priceFilter, setPriceFilter] = useState(["all"]);
+  const [priceFilter, setPriceFilter] = useState(["All"]);
   // the Category filters
-  const [catFilter, setCatFilter] = useState(["all"]);
+  const [catFilter, setCatFilter] = useState(["All"]);
 
   useEffect(() => {
     const source = CancelToken.source();
@@ -81,7 +81,7 @@ export default function Resturants() {
         setRawBizzes(x.data.businesses);
         return x.data.businesses;
       })
-      .then(bizzes => filter(bizzes, { priceFilter, openNowValue }))
+      .then(bizzes => filter(bizzes, { priceFilter, openNow }))
       .then(bizzes => setCurBizzes(bizzes));
     return () => {
       // cancel the promise whenever the catFilters change
@@ -90,10 +90,18 @@ export default function Resturants() {
     };
   }, [...catFilter]);
 
-  function handleOpenNowFilter(openNowValue) {
-    setOpenNowValue(openNowValue);
+  function handleOpenNowFilter(nextOpenNowValue) {
+    setOpenNow(nextOpenNowValue);
     // recompute the current bizzes from all the filters
-    setCurBizzes(filter(rawBizzes, { openNowValue, priceFilter }));
+    setCurBizzes(filter(rawBizzes, { openNow: nextOpenNowValue, priceFilter }));
+  }
+
+  function handlePriceFilter(nextPriceFilter) {
+    // first handle the "All" behavior
+    nextPriceFilter = allDropdownBehavior(priceFilter, nextPriceFilter);
+    setPriceFilter(nextPriceFilter);
+    // recompute the current bizzes from all the filters
+    setCurBizzes(filter(rawBizzes, { openNow, priceFilter: nextPriceFilter }));
   }
 
   return (
@@ -101,8 +109,10 @@ export default function Resturants() {
       <About />
       <Bar />
       <Filter
-        openNowValue={openNowValue}
+        openNow={openNow}
         onChangeOpenNow={handleOpenNowFilter}
+        priceFilter={priceFilter}
+        onChangePriceFilter={handlePriceFilter}
       />
       <span>{rawBizzes.length}</span>
       <span>{curBizzes.length}</span>
