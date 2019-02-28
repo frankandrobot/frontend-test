@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+const Section = styled.section`
+  padding-top: 36px;
+  padding-left: ${props => props.theme.bodyPaddingLeft};
+  padding-right: ${props => props.theme.bodyPaddingRight};
+  margin: 0;
+`;
+
 const Title = styled.h1`
   font-family: ${props => props.theme.fontFamily};
   font-weight: ${props => props.theme.fontWeightLight};
@@ -23,12 +30,12 @@ const Description = styled.p`
 
 export default function About() {
   return (
-    <section>
+    <Section>
       <Title>Restaurants</Title>
       <Description>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </Description>
-    </section>
+    </Section>
   );
 }

@@ -4,7 +4,12 @@ import React from "react";
 import RadioCheckbox from "../../../components/ui/checkbox_radio";
 import Dropdown from "../../../components/ui/dropdown";
 
-const Container = styled.section``;
+const Container = styled.section`
+  padding-top: 26px;
+  padding-bottom: 26px;
+  margin-left: ${props => props.theme.bodyPaddingLeft};
+  margin-right: ${props => props.theme.bodyPaddingRight};
+`;
 
 const FilterText = styled.span`
   display: inline-block;
