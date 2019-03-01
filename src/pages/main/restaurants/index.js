@@ -138,6 +138,19 @@ export default function Resturants() {
     setCatFilter(nextCatFilter);
   }
 
+  function handleClearFilters() {
+    setOpenNow(false);
+    setPriceFilter(["All"]);
+    if (catFilter[0] === "All") {
+      // recompute the current bizzes from all the filters
+      setCurBizzes(
+        filter(rawBizzes, { openNow, priceFilter })
+      );
+    } else {
+      setCatFilter(["All"])
+    }
+  }
+
   return (
     <Main>
       <About />
@@ -149,6 +162,7 @@ export default function Resturants() {
         onChangePriceFilter={handlePriceFilter}
         catFilter={catFilter}
         onChangeCatFilter={handleCatFilter}
+        onClear={handleClearFilters}
       />
       <span>{rawBizzes.length}</span>
       <span>{curBizzes.length}</span>

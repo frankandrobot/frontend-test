@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import RadioCheckbox from "../../../components/ui/checkbox_radio";
 import Dropdown from "../../../components/ui/dropdown";
+import _Button from "../../../components/ui/button_square";
 
 const Container = styled.section`
   padding-top: 26px;
@@ -47,6 +48,11 @@ const Categories = styled.div`
   margin-right: ${props => props.theme.marginRightFilter};
 `;
 
+const Button = styled(_Button)`
+  float: right;
+  margin-top: -8px;
+`;
+
 const prices = ["All", "$", "$$", "$$$", "$$$$"];
 export const categories = [
   { value: "All", label: "All" },
@@ -67,6 +73,7 @@ export default function Filter(props) {
     onChangePriceFilter,
     catFilter,
     onChangeCatFilter,
+    onClear,
   } = props;
   return (
     <Container>
@@ -97,6 +104,7 @@ export default function Filter(props) {
           onChange={onChangeCatFilter}
         />
       </Categories>
+      <Button onClick={onClear}>clear all</Button>
     </Container>
   );
 }
@@ -108,4 +116,5 @@ Filter.propTypes = {
   onChangePriceFilter: PropTypes.func.isRequired,
   catFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChangeCatFilter: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
 };
