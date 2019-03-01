@@ -41,3 +41,5 @@ const Star = styled.div`
 Star.defaultProps = {
   rating: PropTypes.number,
 };
+
+export default Star;
