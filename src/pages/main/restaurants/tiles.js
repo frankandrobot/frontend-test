@@ -5,19 +5,36 @@ import styled from "styled-components";
 import _Tile from "./tile";
 import _DummyTile from "./tile_placeholder";
 
+const calcInteriorWidth = props => {
+  const interiorWidth =
+    props.theme.bodyWidthPx - 2 * props.theme.bodySideMarginPx;
+  return interiorWidth + "px";
+};
+
+const calcMaxWidth = props => {
+  // allow at most 6 tiles in a row
+  const {
+    theme: { widthTilePx, marginRightTilePx },
+  } = props;
+  const maxWidth = 6 * (widthTilePx + marginRightTilePx);
+  return maxWidth + "px";
+};
+
 const Container = styled.section`
-  min-width: ${props => props.theme.bodyWidthPx + "px"};
+  min-width: ${calcInteriorWidth};
+  padding-left: ${props => props.theme.bodyPaddingLeft};
+  max-width: ${calcMaxWidth};
 `;
 
 const Tile = styled(_Tile)`
   display: block;
-  margin-right: 32px;
+  margin-right: ${props => props.theme.marginRightTilePx + "px"};
   float: left;
 `;
 
 const DummyTile = styled(_DummyTile)`
   display: block;
-  margin-right: 32px;
+  margin-right: ${props => props.theme.marginRightTilePx + "px"};
   float: left;
 `;
 

@@ -5,7 +5,7 @@ import React from "react";
 import Stars from "../../../components/ui/stars";
 
 export const Tile = styled.div`
-  width: 304px;
+  width: ${props => props.theme.widthTilePx + "px"};
   height: 428px;
 `;
 

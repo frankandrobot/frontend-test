@@ -1,3 +1,5 @@
+const bodySideMarginPx = 64;
+
 export default {
   fontFamily: `"Helvetica Neue", Helvetica, sans-serif`,
   fontWeightLight: 300,
@@ -6,7 +8,8 @@ export default {
   bodyPaddingLeft: "64px",
   bodyPaddingRight: "64px",
   colorLine: "#e6e6e6",
-  bodyWidthPx: 1312,
+  bodyWidthPx: 1312 + 2 * bodySideMarginPx,
+  bodySideMarginPx,
   /* filter */
   colorFilterBy: "#606060",
   colorFilterText: "#002B56",
@@ -15,4 +18,6 @@ export default {
   colorFilterBottomBar: "#c8c8c8",
   /* tiles */
   colorTileLightGray: "#efefef",
+  widthTilePx: 304,
+  marginRightTilePx: 32,
 };
