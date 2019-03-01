@@ -6,6 +6,7 @@ export default {
   bodyPaddingLeft: "64px",
   bodyPaddingRight: "64px",
   colorLine: "#e6e6e6",
+  bodyWidthPx: 1312,
   /* filter */
   colorFilterBy: "#606060",
   colorFilterText: "#002B56",

@@ -6,6 +6,7 @@ const Section = styled.section`
   padding-left: ${props => props.theme.bodyPaddingLeft};
   padding-right: ${props => props.theme.bodyPaddingRight};
   margin: 0;
+  max-width: 753px;
 `;
 
 const Title = styled.h1`
