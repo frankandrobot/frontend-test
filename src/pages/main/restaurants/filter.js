@@ -25,8 +25,8 @@ const OpenNow = styled.div`
   margin: 0;
   padding: 0;
   border-bottom: 1px solid ${props => props.theme.colorFilterBottomBar};
+  padding-bottom: 8px;
   margin-right: ${props => props.theme.marginRightFilter};
-  padding-bottom: 6px;
   display: inline-block;
 `;
 
@@ -60,7 +60,7 @@ export default function Filter(props) {
         <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
       </OpenNow>
       <Dropdown
-        width={"10em"}
+        width={"6em"}
         title={"Price"}
         options={prices}
         selected={priceFilter}

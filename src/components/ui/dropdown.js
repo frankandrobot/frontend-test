@@ -48,6 +48,11 @@ const TitleLabel = styled.label`
   font-family: ${props => props.theme.fontFamily};
   font-size: ${props => props.theme.fontSizeFilter};
   color: ${props => props.theme.colorFilterText};
+  border-bottom: 1px solid ${props => props.theme.colorFilterBottomBar};
+  /* size/position */
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 8px;
 `;
 
 const Options = styled.ul`
@@ -72,22 +77,41 @@ const Options = styled.ul`
   transition: all 0.1s ease-in;
 `;
 
-const LI = styled.li`
+const Option = styled.li`
   width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  position: relative;
+  cursor: pointer;
+
+  :first-child {
+    padding-top: 16px;
+  }
+  :last-child {
+    padding-right: 16px;
+  }
 `;
 
-const Label = styled.label`
-  width: 100%;
+const OptionLabel = styled.label`
   display: inline-block;
   /* styles */
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 16px;
-  color: #002b56;
-  padding: 16px;
+  font-family: ${props => props.theme.fontFamily};
+  font-size: ${props => props.theme.fontSizeFilter};
+  color: ${props => props.theme.colorFilterBy};
   background: inherit;
-  :hover {
-    background: #e5e5e5;
-  }
+  /* position */
+  margin-left: 8px;
+  position: absolute;
+  /* input */
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 export default class Dropdown extends React.Component {
@@ -147,12 +171,10 @@ export default class Dropdown extends React.Component {
     const { open } = this.state;
     const selectedMap = toMap(selected);
     const listOptions = options.map(opt => (
-      <LI key={opt} onClick={this.handleOptionClick.bind(this, opt)}>
-        <Label htmlFor={opt}>
-          <Checkbox id={opt} checked={!!selectedMap[opt]} />
-          {opt}
-        </Label>
-      </LI>
+      <Option key={opt} onClick={this.handleOptionClick.bind(this, opt)}>
+        <Checkbox id={opt} checked={!!selectedMap[opt]} />
+        <OptionLabel htmlFor={opt}>{opt}</OptionLabel>
+      </Option>
     ));
 
     return (
