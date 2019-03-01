@@ -12,4 +12,6 @@ export default {
   fontSizeFilter: "16px",
   marginRightFilter: "25px",
   colorFilterBottomBar: "#c8c8c8",
+  /* tiles */
+  colorTileLightGray: "#efefef",
 };

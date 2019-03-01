@@ -9,6 +9,7 @@ import About from "./about";
 import Filter from "./filter";
 import { categories } from "./filter";
 import Tile from "./tile";
+import DummyTile from "./tile_placeholder";
 
 import toMap from "../../../utils/toMap";
 
@@ -59,7 +60,11 @@ export function allDropdownBehavior(prevFilters, nextFilters) {
   return nextFilters;
 }
 
-export default function Resturants() {
+const dummyTiles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => (
+  <DummyTile key={i} />
+));
+
+export default function Restaurants() {
   // this is the unfiltered bizzes from the endpoint
   const [rawBizzes, setRawBizzes] = useState([]);
   // these are the filtered bizzes
@@ -70,7 +75,7 @@ export default function Resturants() {
   const [priceFilter, setPriceFilter] = useState(["All"]);
   // the Category filters
   const [catFilter, setCatFilter] = useState(["All"]);
-  const [retryAJAX, setRetryAJAX] = useState(0);
+  const [load, setLoad] = useState(true);
 
   useEffect(
     function loadYelpData() {
@@ -100,12 +105,13 @@ export default function Resturants() {
         })
         .then(bizzes => filter(bizzes, { priceFilter, openNow }))
         .then(bizzes => setCurBizzes(bizzes))
+        .then(() => setLoad(false))
         .catch(thrown => {
           if (axios.isCancel(thrown)) {
             // cancelled ignore
           } else {
             console.log("something bad happened, retrying", thrown);
-            setRetryAJAX(retryAJAX + 1);
+            setLoad(true);
           }
         });
       return () => {
@@ -113,10 +119,9 @@ export default function Resturants() {
         // or the component is dismounted
         source.cancel();
       };
-      // run the effect anytime a catFilter changes or we
-      // update retryAJAX
+      // run the effect when we're told
     },
-    [catFilter, retryAJAX]
+    [catFilter, load]
   );
 
   function handleOpenNowFilter(nextOpenNowValue) {
@@ -137,16 +142,18 @@ export default function Resturants() {
     // first handle the "All" behavior
     nextCatFilter = allDropdownBehavior(catFilter, nextCatFilter);
     setCatFilter(nextCatFilter);
+    setLoad(true);
   }
 
   function handleClearFilters() {
     setOpenNow(false);
     setPriceFilter(["All"]);
     if (catFilter[0] === "All") {
-      // recompute the current bizzes from all the filters
+      // save an AJAX call if we're already in All
       setCurBizzes(filter(rawBizzes, { openNow, priceFilter }));
     } else {
       setCatFilter(["All"]);
+      setLoad(true);
     }
   }
 
@@ -163,9 +170,7 @@ export default function Resturants() {
         onChangeCatFilter={handleCatFilter}
         onClear={handleClearFilters}
       />
-      {curBizzes.map(biz => (
-        <Tile key={biz.id} {...biz} />
-      ))}
+      {load ? dummyTiles : curBizzes.map(biz => <Tile key={biz.id} {...biz} />)}
       <Bar />
     </Main>
   );
