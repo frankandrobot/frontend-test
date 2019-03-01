@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import React, { useRef, useEffect } from "react";
+import React from "react";
 
 import Stars from "../../../components/ui/stars";
 
-const Tile = styled.div`
+export const Tile = styled.div`
   width: 304px;
   height: 428px;
 `;
 
-const ImgContainer = styled.div`
+export const ImgContainer = styled.div`
   width: 100%;
   height: 228px;
   overflow: hidden;
@@ -33,7 +33,7 @@ Img.propTypes = {
   src: PropTypes.string.isRequired,
 };
 
-const Name = styled.h1`
+export const Name = styled.h1`
   margin: 0;
   padding: 0;
   font-family: ${props => props.theme.fontFamily};
@@ -44,7 +44,7 @@ const Name = styled.h1`
   padding-bottom: 6px;
 `;
 
-const Misc = styled.div`
+export const Misc = styled.div`
   margin: 0;
   padding: 0;
   margin-top: 14px;
@@ -53,7 +53,7 @@ const Misc = styled.div`
   line-height: 1;
 `;
 
-const CatPrice = styled.div`
+export const CatPrice = styled.div`
   display: inline-block;
   float: left;
   font-family: ${props => props.theme.fontFamily};
@@ -62,7 +62,7 @@ const CatPrice = styled.div`
   text-transform: uppercase;
 `;
 
-const OpenStatus = styled.div`
+export const OpenStatus = styled.div`
   display: inline-block;
   float: right;
   font-family: ${props => props.theme.fontFamily};
