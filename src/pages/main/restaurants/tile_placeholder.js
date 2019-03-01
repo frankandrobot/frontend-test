@@ -31,9 +31,7 @@ const Stars = styled.div`
   background: ${props => props.theme.colorTileLightGray};
 `;
 
-const Misc = styled(RealMisc)`
-  margin-top: 7px;
-`;
+const Misc = styled(RealMisc)``;
 
 const CatPrice = styled(RealCatPrice)`
   height: 12px;
@@ -47,9 +45,9 @@ const OpenStatus = styled(RealOpenStatus)`
   background: ${props => props.theme.colorTileLightGray};
 `;
 
-export default function DummyTileComponent() {
+export default function DummyTileComponent(props) {
   return (
-    <Tile>
+    <Tile className={props.className}>
       <ImgContainer />
       <Name />
       <Stars />
@@ -60,3 +58,11 @@ export default function DummyTileComponent() {
     </Tile>
   );
 }
+
+DummyTileComponent.defaultProps = {
+  className: "",
+};
+
+DummyTileComponent.propTypes = {
+  className: PropTypes.string,
+};

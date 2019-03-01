@@ -83,7 +83,7 @@ const Status = styled.span`
 
 export default function TileComponent(props) {
   return (
-    <Tile>
+    <Tile className={props.className}>
       <ImgContainer>
         <Img src={props.image_url} />
       </ImgContainer>
@@ -102,6 +102,10 @@ export default function TileComponent(props) {
   );
 }
 
+TileComponent.defaultProps = {
+  className: ''
+};
+
 TileComponent.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
@@ -110,4 +114,5 @@ TileComponent.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
