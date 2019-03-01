@@ -143,11 +143,9 @@ export default function Resturants() {
     setPriceFilter(["All"]);
     if (catFilter[0] === "All") {
       // recompute the current bizzes from all the filters
-      setCurBizzes(
-        filter(rawBizzes, { openNow, priceFilter })
-      );
+      setCurBizzes(filter(rawBizzes, { openNow, priceFilter }));
     } else {
-      setCatFilter(["All"])
+      setCatFilter(["All"]);
     }
   }
 
