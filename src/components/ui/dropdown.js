@@ -170,12 +170,16 @@ export default class Dropdown extends React.Component {
     const { title, options, width, selected } = this.props;
     const { open } = this.state;
     const selectedMap = toMap(selected);
-    const listOptions = options.map(opt => (
-      <Option key={opt} onClick={this.handleOptionClick.bind(this, opt)}>
-        <Checkbox id={opt} checked={!!selectedMap[opt]} />
-        <OptionLabel htmlFor={opt}>{opt}</OptionLabel>
-      </Option>
-    ));
+    const listOptions = options.map(opt => {
+      const label = opt.label ? opt.label : opt;
+      const value = opt.value ? opt.value : opt;
+      return (
+        <Option key={value} onClick={this.handleOptionClick.bind(this, value)}>
+          <Checkbox id={value} checked={!!selectedMap[value]} />
+          <OptionLabel htmlFor={value}>{label}</OptionLabel>
+        </Option>
+      );
+    });
 
     return (
       <Select ref={this.select} tabIndex={1} width={width} open={open}>
@@ -191,7 +195,10 @@ export default class Dropdown extends React.Component {
 Dropdown.propTypes = {
   width: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(PropTypes.object),
+  ]).isRequired,
   selected: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
 };

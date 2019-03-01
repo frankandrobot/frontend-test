@@ -37,9 +37,27 @@ const OpenNowText = styled.label`
   margin-left: 8px;
 `;
 
-const prices = ["All", "$", "$$", "$$$", "$$$$"];
+const Price = styled.div`
+  display: inline-block;
+  margin-right: ${props => props.theme.marginRightFilter};
+`;
 
-const Category = styled.select``;
+const Categories = styled.div`
+  display: inline-block;
+  margin-right: ${props => props.theme.marginRightFilter};
+`;
+
+const prices = ["All", "$", "$$", "$$$", "$$$$"];
+export const categories = [
+  { value: "All", label: "All" },
+  { value: "italian", label: "Italian" },
+  { value: "seafood", label: "Seafood" },
+  { value: "steak", label: "Steakhouses" },
+  { value: "japanese", label: "Japanese" },
+  { value: "tradamerican", label: "American" },
+  { value: "mexican", label: "Mexican" },
+  { value: "thai", label: "Thai" },
+];
 
 export default function Filter(props) {
   const {
@@ -47,6 +65,8 @@ export default function Filter(props) {
     onChangeOpenNow,
     priceFilter,
     onChangePriceFilter,
+    catFilter,
+    onChangeCatFilter,
   } = props;
   return (
     <Container>
@@ -59,13 +79,24 @@ export default function Filter(props) {
         />
         <OpenNowText htmlFor="open-now">Open Now</OpenNowText>
       </OpenNow>
-      <Dropdown
-        width={"6em"}
-        title={"Price"}
-        options={prices}
-        selected={priceFilter}
-        onChange={onChangePriceFilter}
-      />
+      <Price>
+        <Dropdown
+          width={"6em"}
+          title={"Price"}
+          options={prices}
+          selected={priceFilter}
+          onChange={onChangePriceFilter}
+        />
+      </Price>
+      <Categories>
+        <Dropdown
+          width={"10em"}
+          title={"Categories"}
+          options={categories}
+          selected={catFilter}
+          onChange={onChangeCatFilter}
+        />
+      </Categories>
     </Container>
   );
 }
@@ -75,4 +106,6 @@ Filter.propTypes = {
   onChangeOpenNow: PropTypes.func.isRequired,
   priceFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChangePriceFilter: PropTypes.func.isRequired,
+  catFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChangeCatFilter: PropTypes.func.isRequired,
 };

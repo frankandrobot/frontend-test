@@ -7,6 +7,8 @@ import axios from "axios";
 
 import About from "./about";
 import Filter from "./filter";
+import { categories } from "./filter";
+
 import toMap from "../../../utils/toMap";
 
 const Bar = styled.hr`
@@ -46,11 +48,14 @@ export function allDropdownBehavior(prevFilters, nextFilters) {
   } else if (prevFilters[0] === "All" && nextFilters.length > 1) {
     // uncheck "All" when it was checked but now checked something else
     return nextFilters.filter(f => f !== "All");
-  } else if (prevFilters.indexOf("All") < 0 && nextFilters.indexOf("All") >= 0) {
+  } else if (
+    prevFilters.indexOf("All") < 0 &&
+    nextFilters.indexOf("All") >= 0
+  ) {
     // uncheck everything except "All" when checked
     return ["All"];
   }
-  return nextFilters
+  return nextFilters;
 }
 
 export default function Resturants() {
@@ -64,31 +69,54 @@ export default function Resturants() {
   const [priceFilter, setPriceFilter] = useState(["All"]);
   // the Category filters
   const [catFilter, setCatFilter] = useState(["All"]);
+  const [retryAJAX, setRetryAJAX] = useState(0);
 
-  useEffect(() => {
-    const source = CancelToken.source();
-    axios
-      .get(`${__API_URL__}/v3/businesses/search`, {
-        params: {
-          location: "New York",
-        },
-        headers: {
-          Authorization: `Bearer ${__API_KEY__}`,
-        },
-        cancelToken: source.token,
-      })
-      .then(x => {
-        setRawBizzes(x.data.businesses);
-        return x.data.businesses;
-      })
-      .then(bizzes => filter(bizzes, { priceFilter, openNow }))
-      .then(bizzes => setCurBizzes(bizzes));
-    return () => {
-      // cancel the promise whenever the catFilters change
-      // or the component is dismounted
-      source.cancel();
-    };
-  }, [...catFilter]);
+  useEffect(
+    function loadYelpData() {
+      const source = CancelToken.source();
+      const cats =
+        catFilter.indexOf("All") < 0
+          ? // if not filtering by all filter by catFilters
+            catFilter.join(",")
+          : // else filter by all categories
+            categories.slice(1).map(cat => cat.value);
+      const params = {
+        location: "Las Vegas",
+        categories: cats,
+      };
+
+      axios
+        .get(`${__API_URL__}/v3/businesses/search`, {
+          params,
+          headers: {
+            Authorization: `Bearer ${__API_KEY__}`,
+          },
+          cancelToken: source.token,
+        })
+        .then(x => {
+          setRawBizzes(x.data.businesses);
+          return x.data.businesses;
+        })
+        .then(bizzes => filter(bizzes, { priceFilter, openNow }))
+        .then(bizzes => setCurBizzes(bizzes))
+        .catch(thrown => {
+          if (axios.isCancel(thrown)) {
+            // cancelled ignore
+          } else {
+            console.log("something bad happened, retrying", thrown);
+            setRetryAJAX(retryAJAX + 1);
+          }
+        });
+      return () => {
+        // cancel the promise whenever the catFilters change
+        // or the component is dismounted
+        source.cancel();
+      };
+      // run the effect anytime a catFilter changes or we
+      // update retryAJAX
+    },
+    [catFilter, retryAJAX]
+  );
 
   function handleOpenNowFilter(nextOpenNowValue) {
     setOpenNow(nextOpenNowValue);
@@ -104,6 +132,12 @@ export default function Resturants() {
     setCurBizzes(filter(rawBizzes, { openNow, priceFilter: nextPriceFilter }));
   }
 
+  function handleCatFilter(nextCatFilter) {
+    // first handle the "All" behavior
+    nextCatFilter = allDropdownBehavior(catFilter, nextCatFilter);
+    setCatFilter(nextCatFilter);
+  }
+
   return (
     <Main>
       <About />
@@ -113,6 +147,8 @@ export default function Resturants() {
         onChangeOpenNow={handleOpenNowFilter}
         priceFilter={priceFilter}
         onChangePriceFilter={handlePriceFilter}
+        catFilter={catFilter}
+        onChangeCatFilter={handleCatFilter}
       />
       <span>{rawBizzes.length}</span>
       <span>{curBizzes.length}</span>
