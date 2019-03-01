@@ -1,24 +1,30 @@
 const { allDropdownBehavior } = require("./index");
 
-test(`allDropdownBehavior defaults to "all"`, () => {
+test(`allDropdownBehavior defaults to "All"`, () => {
   let result;
   result = allDropdownBehavior(["any"], []);
-  expect(result).toEqual(["all"]);
-  result = allDropdownBehavior(["all"], []);
-  expect(result).toEqual(["all"]);
+  expect(result).toEqual(["All"]);
+  result = allDropdownBehavior(["All"], []);
+  expect(result).toEqual(["All"]);
 });
 
-test(`allDropdownBehavior can uncheck "all"`, () => {
+test(`allDropdownBehavior can uncheck "All"`, () => {
   let result;
-  result = allDropdownBehavior(["all"], ["a"]);
+  result = allDropdownBehavior(["All"], ["a"]);
   expect(result).toEqual(["a"]);
-  result = allDropdownBehavior(["all"], ["a", "b"]);
+  result = allDropdownBehavior(["All"], ["a", "b"]);
   expect(result).toEqual(["a", "b"]);
-  result = allDropdownBehavior(["all"], ["all", "a", "b"]);
+  result = allDropdownBehavior(["All"], ["All", "a", "b"]);
   expect(result).toEqual(["a", "b"]);
 });
 
-test(`allDropdownBehavior passes nextFilter when "all" is not involved`, () => {
+test(`allDropdownBehavior unchecks others when checking "All`, () => {
+  let result;
+  result = allDropdownBehavior(["a","b"],["All", "a", "b"])
+  expect(result).toEqual(["All"])
+})
+
+test(`allDropdownBehavior passes nextFilter when "All" is not involved`, () => {
   let result;
   result = allDropdownBehavior(["o"], ["a"]);
   expect(result).toEqual(["a"]);

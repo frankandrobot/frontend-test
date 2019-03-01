@@ -46,7 +46,7 @@ export function allDropdownBehavior(prevFilters, nextFilters) {
   } else if (prevFilters[0] === "All" && nextFilters.length > 1) {
     // uncheck "All" when it was checked but now checked something else
     return nextFilters.filter(f => f !== "All");
-  } else if (prevFilters.length > 1 && nextFilters.indexOf("All") >= 0) {
+  } else if (prevFilters.indexOf("All") < 0 && nextFilters.indexOf("All") >= 0) {
     // uncheck everything except "All" when checked
     return ["All"];
   }
