@@ -64,6 +64,11 @@ export const categories = [
   { value: "mexican", label: "Mexican" },
   { value: "thai", label: "Thai" },
 ];
+export const categoriesByValue = categories.reduce(
+  (total, { value, label }) =>
+    Object.assign(total, { [value]: { label, value } }),
+  {}
+);
 
 export default function Filter(props) {
   const {

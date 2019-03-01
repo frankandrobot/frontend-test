@@ -7,11 +7,12 @@ import axios from "axios";
 
 import About from "./about";
 import Filter from "./filter";
-import { categories } from "./filter";
-import Tile from "./tile";
-import DummyTile from "./tile_placeholder";
+import { categories, categoriesByValue } from "./filter";
+import Tiles from "./tiles";
 
 import toMap from "../../../utils/toMap";
+
+const Main = styled.main``;
 
 const Bar = styled.hr`
   color: ${props => props.theme.colorLine}; /* old IE */
@@ -20,7 +21,15 @@ const Bar = styled.hr`
   height: 1px;
 `;
 
-const Main = styled.main``;
+const FilterTitle = styled.h2`
+  font-family: ${props => props.theme.fontFamily};
+  font-size: 34px;
+  font-weight: ${props => props.theme.fontWeightLight};
+  color: #333333;
+  margin-top: 64px;
+  margin-bottom: 43px;
+  padding-left: ${props => props.theme.bodyPaddingLeft};
+`;
 
 function filter(bizzes, { priceFilter, openNow }) {
   bizzes = filterByOpenNow(bizzes, openNow);
@@ -59,10 +68,6 @@ export function allDropdownBehavior(prevFilters, nextFilters) {
   }
   return nextFilters;
 }
-
-const dummyTiles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => (
-  <DummyTile key={i} />
-));
 
 export default function Restaurants() {
   // this is the unfiltered bizzes from the endpoint
@@ -170,8 +175,12 @@ export default function Restaurants() {
         onChangeCatFilter={handleCatFilter}
         onClear={handleClearFilters}
       />
-      {load ? dummyTiles : curBizzes.map(biz => <Tile key={biz.id} {...biz} />)}
       <Bar />
+      <FilterTitle>{`${catFilter
+        .map(x => categoriesByValue[x].label)
+        .sort()
+        .join(", ")} Restaurants`}</FilterTitle>
+      <Tiles bizzes={curBizzes} loading={load} />
     </Main>
   );
 }
