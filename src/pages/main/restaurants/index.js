@@ -8,6 +8,7 @@ import axios from "axios";
 import About from "./about";
 import Filter from "./filter";
 import { categories } from "./filter";
+import Tile from "./tile";
 
 import toMap from "../../../utils/toMap";
 
@@ -162,8 +163,9 @@ export default function Resturants() {
         onChangeCatFilter={handleCatFilter}
         onClear={handleClearFilters}
       />
-      <span>{rawBizzes.length}</span>
-      <span>{curBizzes.length}</span>
+      {curBizzes.map(biz => (
+        <Tile key={biz.id} {...biz} />
+      ))}
       <Bar />
     </Main>
   );
