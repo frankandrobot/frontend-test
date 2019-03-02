@@ -71,7 +71,6 @@ export const Category = styled.div`
 `;
 
 export const Price = styled(Category)`
-  background: yellow;
   :before {
     margin-left: 4px;
     content: "•";
