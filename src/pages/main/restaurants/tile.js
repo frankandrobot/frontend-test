@@ -2,9 +2,11 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Stars from "../../../components/ui/stars";
+import _Stars from "../../../components/ui/stars";
+import Button from "../../../components/ui/button_square";
 
 export const Tile = styled.div`
+  position: relative;
   width: ${props => props.theme.widthTilePx + "px"};
   height: 428px;
 `;
@@ -41,37 +43,49 @@ export const Name = styled.h1`
   color: black;
   line-height: 1.5;
   padding-top: 16px;
-  padding-bottom: 6px;
+  padding-bottom: 7px;
 `;
 
-export const Misc = styled.div`
+const Stars = styled(_Stars)`
+  font-size: 20px;
+`;
+
+export const MiscInfo = styled.div`
   margin: 0;
   padding: 0;
   margin-top: 14px;
-  margin-bottom: 18px;
   width: 100%;
+  height: 16px;
+  font-size: 16px;
   line-height: 1;
 `;
 
-export const CatPrice = styled.div`
+export const Category = styled.div`
   display: inline-block;
   float: left;
   font-family: ${props => props.theme.fontFamily};
-  font-size: 12px;
   color: #757575;
   text-transform: uppercase;
+  max-width: 125px;
+`;
+
+export const Price = styled(Category)`
+  background: yellow;
+  margin-left: 1em;
+  :before {
+    content: "•";
+  }
 `;
 
 export const OpenStatus = styled.div`
   display: inline-block;
   float: right;
   font-family: ${props => props.theme.fontFamily};
-  font-size: 12px;
   color: #757575;
   text-transform: uppercase;
 `;
 
-const Status = styled.span`
+export const Status = styled.span`
   display: inline-block;
   height: 8px;
   width: 8px;
@@ -79,6 +93,22 @@ const Status = styled.span`
   background: ${props => (props.is_closed ? "#FF3548" : "#00e8a4")};
   border: 1px solid ${props => (props.is_closed ? "#FF3548" : "#00e8a4")};
   margin-right: 4px;
+`;
+
+const LearnMoreBtn = styled(Button)`
+  position: absolute;
+  bottom: 0;
+  /* size */
+  height: 48px;
+  line-height: 48px;
+  width: 100%;
+  font-size: 16px;
+  /* styles */
+  color: #ffffff;
+  background: #002b56;
+  border: 1px solid #002b53;
+  border-radius: 3px;
+  clear: both;
 `;
 
 export default function TileComponent(props) {
@@ -89,30 +119,30 @@ export default function TileComponent(props) {
       </ImgContainer>
       <Name>{props.name}</Name>
       <Stars rating={props.rating} max={5} />
-      <Misc>
-        <CatPrice>
-          {props.categories[0].title} • {props.price}
-        </CatPrice>
+      <MiscInfo>
+        <Category>{props.categories[0].title}</Category>
+        <Price>{props.price}</Price>
         <OpenStatus>
           <Status />
           {props.is_closed ? "closed" : "open now"}
         </OpenStatus>
-      </Misc>
+      </MiscInfo>
+      <LearnMoreBtn>Learn More</LearnMoreBtn>
     </Tile>
   );
 }
 
 TileComponent.defaultProps = {
-  className: ''
+  className: "",
 };
 
 TileComponent.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
   image_url: PropTypes.string.isRequired,
-  is_closed: PropTypes.bool.isRequired,
+  is_closed: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
+  price: PropTypes.string,
+  rating: PropTypes.number,
   className: PropTypes.string,
 };
