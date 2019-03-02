@@ -11,6 +11,7 @@ import { categories, categoriesByValue } from "./filter";
 import Tiles from "./tiles";
 
 import toMap from "../../../utils/toMap";
+import theme from "../../../components/theme";
 
 const Main = styled.main``;
 
@@ -180,7 +181,7 @@ export default function Restaurants() {
         .map(x => categoriesByValue[x].label)
         .sort()
         .join(", ")} Restaurants`}</FilterTitle>
-      <Tiles bizzes={curBizzes} loading={load} />
+      <Tiles bizzes={curBizzes} loading={load} theme={theme} />
     </Main>
   );
 }
