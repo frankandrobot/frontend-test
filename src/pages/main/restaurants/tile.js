@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import _Stars from "../../../components/ui/stars";
 import Button from "../../../components/ui/button_square";
@@ -99,6 +100,7 @@ export const Status = styled.span`
 const LearnMoreBtn = styled(Button)`
   position: absolute;
   bottom: 0;
+  left: 0;
   /* size */
   height: 48px;
   line-height: 48px;
@@ -106,6 +108,7 @@ const LearnMoreBtn = styled(Button)`
   font-size: 16px;
   /* styles */
   color: #ffffff;
+  text-decoration: none;
   background: #002b56;
   border: 1px solid #002b53;
   border-radius: 3px;
@@ -138,7 +141,9 @@ export default function TileComponent(props) {
           {props.is_closed ? "closed" : "open now"}
         </OpenStatus>
       </MiscInfo>
-      <LearnMoreBtn>Learn More</LearnMoreBtn>
+      <LearnMoreBtn as={Link} to={`/restaurants/${props.id}`}>
+        Learn More
+      </LearnMoreBtn>
     </Tile>
   );
 }

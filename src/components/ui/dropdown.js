@@ -22,6 +22,7 @@ const Select = styled.div`
   margin: 0;
   padding: 0;
   width: ${props => props.width};
+  z-index: 1;
   /* the dropdown caret */
   :after {
     position: absolute;
