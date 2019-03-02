@@ -45,7 +45,7 @@ const DummyTile = styled(_DummyTile)`
 `;
 
 const dummyBizzes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const toDummyTiles = dum => dum.map(i => <DummyTile key={i} />);
+const dummyTiles = dummyBizzes.map(i => <DummyTile key={i} />);
 
 const Button = styled(_Button)`
   /* size */
@@ -61,60 +61,107 @@ const Button = styled(_Button)`
   margin: 0 auto;
 `;
 
-export default function TilesComp(props) {
-  const { bizzes: allBizzes, loading } = props;
-  const elRef = useRef(null);
-  const [bizzes, setBizzes] = useState([]);
-  const [rowCount, setRowCount] = useState(0);
-  const [lastBizzIndex, setLastBizzIndex] = useState(0);
-  const [dummyTiles, setDummyTiles] = useState(
-    toDummyTiles(dummyBizzes.slice(0, 8))
-  );
+function calcItemsPerRow({ widthTilePx, marginRightTilePx }, elRef) {
+  const tileWidth = widthTilePx + marginRightTilePx;
+  const containerWidth = elRef.current.offsetWidth;
+  return Math.floor(containerWidth / tileWidth);
+}
+
+function useDummyTiles({ widthTilePx, marginRightTilePx }, elRef) {
+  const [tiles, setTiles] = useState(null);
 
   useLayoutEffect(
+    // populate tiles when component mounts
     function initialDisplay() {
-      const tileWidth = props.theme.widthTilePx + props.theme.marginRightTilePx;
-      const containerWidth = elRef.current.offsetWidth;
-      const count = Math.floor(containerWidth / tileWidth);
-      const lastIndex = Math.min(allBizzes.length, 2 * count);
-      setDummyTiles(toDummyTiles(dummyBizzes.slice(0, 2 * count)));
-      setBizzes(allBizzes.slice(0, 2 * count));
-      setLastBizzIndex(lastIndex);
-      setRowCount(count);
+      const itemsPerRow = calcItemsPerRow(
+        { widthTilePx, marginRightTilePx },
+        elRef
+      );
+      setTiles(dummyTiles.slice(0, 2 * itemsPerRow));
     },
-    // (re)populate tiles when component mounts or when it
-    // receives data
-    [elRef, allBizzes]
+    [elRef]
   );
 
   useEffect(
-    function rowCountOnResize() {
-      window.addEventListener("resize", _rowCountOnResize);
-      function _rowCountOnResize() {
-        const tileWidth =
-          props.theme.widthTilePx + props.theme.marginRightTilePx;
-        const containerWidth = elRef.current.offsetWidth;
-        const newRowCount = Math.floor(containerWidth / tileWidth);
-        setRowCount(newRowCount);
-        return () => window.removeEventListener("resize", _rowCountOnResize);
+    function updateRowsOnResize() {
+      window.addEventListener("resize", _updateRowsOnResize);
+      function _updateRowsOnResize() {
+        const itemsPerRow = calcItemsPerRow(
+          { widthTilePx, marginRightTilePx },
+          elRef
+        );
+        setTiles(dummyTiles.slice(0, itemsPerRow));
+        return () => window.removeEventListener("resize", _updateRowsOnResize);
       }
     },
     [elRef]
   );
 
+  return tiles;
+}
+
+export default function TilesComp(props) {
+  const { bizzes: allBizzes, loading, theme } = props;
+  const elRef = useRef(null);
+  const dummyTiles = useDummyTiles(theme, elRef);
+  const [bizzes, setBizzes] = useState([]);
+  const [itemsPerRow, setItemsPerRow] = useState(0);
+  const [lastIndex, setLastIndex] = useState(0);
+
+  useLayoutEffect(
+    function initialDisplay() {
+      const newItemsPerRow = calcItemsPerRow(theme, elRef);
+      setItemsPerRow(newItemsPerRow);
+      const newLastIndex = Math.min(allBizzes.length, 2 * newItemsPerRow);
+      setLastIndex(newLastIndex);
+      setBizzes(allBizzes.slice(0, 2 * newItemsPerRow));
+    },
+    // run initialDisplay when component mounts
+    [elRef]
+  );
+
+  useLayoutEffect(
+    function updateBizData() {
+      if (!elRef.current) {
+        // make sure this runs after initialDisplay
+        return;
+      }
+      // reset everything (except itemsPerRow)
+      const newLastIndex = Math.min(allBizzes.length, 2 * itemsPerRow);
+      setLastIndex(newLastIndex);
+      setBizzes(allBizzes.slice(0, 2 * itemsPerRow));
+    },
+    // run updateBizData when receive new data
+    [elRef, allBizzes]
+  );
+
+  useEffect(
+    function updateItemsPerRowOnResize() {
+      window.addEventListener("resize", _updateItemsPerRowOnResize);
+      function _updateItemsPerRowOnResize() {
+        const newItemsPerRow = calcItemsPerRow(theme, elRef);
+        setItemsPerRow(newItemsPerRow);
+        return () =>
+          window.removeEventListener("resize", _updateItemsPerRowOnResize);
+      }
+    },
+    // setup resize listener on mount
+    [elRef]
+  );
+
   function handleLoadMore() {
-    const newLastBizzIndex =
-      lastBizzIndex +
-      // rowCount may have actually changed because of a resize
+    const newLastIndex =
+      lastIndex +
+      // itemsPerRow may have actually changed because of a resize
       // so this is the amount to make a full row
-      (lastBizzIndex % rowCount) +
-      // plus the new row
-      2 * rowCount;
-    setBizzes(allBizzes.slice(0, newLastBizzIndex));
-    setLastBizzIndex(newLastBizzIndex);
+      (lastIndex % itemsPerRow) +
+      // plus the new rows
+      2 * itemsPerRow;
+    setLastIndex(newLastIndex);
+    setBizzes(allBizzes.slice(0, newLastIndex));
   }
 
-  const showLoadMoreButton = !loading && lastBizzIndex < allBizzes.length - 1;
+  const showLoadMoreButton = !loading && lastIndex <= allBizzes.length - 1;
 
   return (
     <Container ref={elRef}>
