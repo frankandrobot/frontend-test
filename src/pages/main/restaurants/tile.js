@@ -9,6 +9,7 @@ export const Tile = styled.div`
   position: relative;
   width: ${props => props.theme.widthTilePx + "px"};
   height: 428px;
+  margin-bottom: 80px;
 `;
 
 export const ImgContainer = styled.div`
@@ -71,9 +72,10 @@ export const Category = styled.div`
 
 export const Price = styled(Category)`
   background: yellow;
-  margin-left: 1em;
   :before {
+    margin-left: 4px;
     content: "•";
+    margin-right: 4px;
   }
 `;
 
