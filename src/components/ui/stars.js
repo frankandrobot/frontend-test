@@ -27,11 +27,11 @@ export function toArray(rating, max) {
   return arr;
 }
 
-export default function Stars({ rating, max }) {
+export default function Stars({ className, rating, max }) {
   // convert the rating to an array of numbers
   const arr = toArray(rating, max);
   return (
-    <Container>
+    <Container className={className}>
       {arr.map((rat, i) => (
         <Star key={i} rating={rat} />
       ))}
@@ -39,7 +39,12 @@ export default function Stars({ rating, max }) {
   );
 }
 
+Stars.defaultProps = {
+  className: "",
+};
+
 Stars.propTypes = {
   rating: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
