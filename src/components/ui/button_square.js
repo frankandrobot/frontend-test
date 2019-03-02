@@ -21,7 +21,7 @@ const Button = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  
+
   :hover {
     border: 1pt solid #002b56;
     color: #002b56;
