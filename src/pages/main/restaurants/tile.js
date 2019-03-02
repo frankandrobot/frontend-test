@@ -110,6 +110,16 @@ const LearnMoreBtn = styled(Button)`
   border: 1px solid #002b53;
   border-radius: 3px;
   clear: both;
+
+  :hover {
+    background: rgb(0, 43, 86, 0.75);
+    color: #ffffff;
+  }
+
+  :active {
+    background: rgb(0, 43, 86, 0.5);
+    color: #ffffff;
+  }
 `;
 
 export default function TileComponent(props) {
