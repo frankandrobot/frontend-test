@@ -51,6 +51,7 @@ const Button = styled(LearnMoreBtn)`
 
   :hover,
   :active {
+    border: 1px solid ${props => props.theme.colorPlaceHolder};
     background: ${props => props.theme.colorPlaceHolder};
   }
 `;
@@ -65,7 +66,7 @@ export default function DummyTileComponent(props) {
         <Category />
         <OpenStatus />
       </Misc>
-      <Button/>
+      <Button />
     </Tile>
   );
 }

@@ -89,6 +89,7 @@ export default function Restaurants() {
       const params = {
         location: "Las Vegas",
         categories: cats,
+        limit: 50,
       };
 
       axios
