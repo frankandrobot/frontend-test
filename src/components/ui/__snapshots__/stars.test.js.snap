@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stars renders correctly 1`] = `
+<div
+  className="stars__Container-m5uppc-0 kUWcna"
+>
+  <div
+    className="star__Star-sc-11o45p7-0 stars__Star-m5uppc-1 fcJOLy"
+  />
+  <div
+    className="star__Star-sc-11o45p7-0 stars__Star-m5uppc-1 fcJOLy"
+  />
+  <div
+    className="star__Star-sc-11o45p7-0 stars__Star-m5uppc-1 fcJOLy"
+  />
+  <div
+    className="star__Star-sc-11o45p7-0 stars__Star-m5uppc-1 fcJOLy"
+  />
+  <div
+    className="star__Star-sc-11o45p7-0 stars__Star-m5uppc-1 fcJOLy"
+  />
+</div>
+`;
+
+exports[`Stars renders empty stars correctly 1`] = `
+<div
+  className="stars__Container-m5uppc-0 kUWcna"
+/>
+`;
