@@ -12,8 +12,7 @@ const Section = styled.section`
 const Title = styled.h1`
   font-family: ${props => props.theme.fontFamily};
   font-weight: ${props => props.theme.fontWeightLight};
-  font-size: 54px;
-  color: ${props => props.theme.colorHeading};
+  font-size: ${props => props.theme.fontSizeH1};
   margin: 0;
   padding: 0;
   margin-bottom: 24px;
