@@ -5,25 +5,28 @@ import React from "react";
 import _Stars from "../../../components/ui/stars";
 import Img from "../../../components/ui/img";
 
-const Container = styled.div`
+export const Container = styled.div`
   margin: 0;
   padding: 0;
   overflow: auto;
 `;
 
-const ReviewerPhoto = styled(Img)`
+export const ReviewerPhoto = styled(Img)`
   float: left;
   margin-right: 32px;
+  /* needed for the placeholder to work */
+  min-width: 80px;
+  min-height: 80px;
 `;
 
-const ReviewerInfo = styled.div`
+export const ReviewerInfo = styled.div`
   display: inline-block;
   width: 192px;
   margin-right: 32px;
   float: left;
 `;
 
-const ReviewerName = styled.span`
+export const ReviewerName = styled.span`
   display: block;
   min-height: 24px;
   font-family: ${props => props.theme.fontFamily};
@@ -32,7 +35,7 @@ const ReviewerName = styled.span`
   margin-bottom: 6px;
 `;
 
-const Date = styled.span`
+export const Date = styled.span`
   display: block;
   min-height: 24px;
   font-family: ${props => props.theme.fontFamily};
@@ -41,18 +44,18 @@ const Date = styled.span`
   color: #666666;
 `;
 
-const Body = styled.div`
+export const Body = styled.div`
   float: left;
   width: 976px;
 `;
 
-const Stars = styled(_Stars)`
+export const Stars = styled(_Stars)`
   height: 20px;
   font-size: 20px;
   margin-bottom: 19px;
 `;
 
-const Text = styled.p`
+export const Text = styled.p`
   font-family: ${props => props.theme.fontFamily};
   font-weight: ${props => props.theme.fontWeightLight};
   font-size: 20px;

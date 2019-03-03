@@ -6,7 +6,7 @@ import _Bar from "../../../components/ui/bar";
 
 import Review from "./review";
 
-const Section = styled.section`
+export const Section = styled.section`
   margin: 0;
   padding: 0;
   margin-top: 48px;
@@ -15,7 +15,7 @@ const Section = styled.section`
   padding-right: ${props => props.theme.bodyPaddingRight};
 `;
 
-const Count = styled.div`
+export const Count = styled.div`
   font-family: ${props => props.theme.fontFamily};
   font-weight: ${props => props.theme.fontWeightLight};
   font-size: 22px;
@@ -24,11 +24,11 @@ const Count = styled.div`
   margin-bottom: 48px;
 `;
 
-const ReviewContainer = styled.div`
+export const ReviewContainer = styled.div`
   width: 100%;
 `;
 
-const Bar = styled(_Bar)`
+export const Bar = styled(_Bar)`
   margin-top: 73px;
   margin-bottom: 73px;
 `;

@@ -10,7 +10,7 @@ import Bar from "../../../components/ui/bar";
 import Reviews from "./reviews";
 import Header from "./header";
 import Photos from "./photos";
-import { DummyHeader, DummyPhotos } from "./details_placeholder";
+import { DummyHeader, DummyPhotos, DummyReviews } from "./details_placeholder";
 
 export const Main = styled.main`
   padding: 0;
@@ -101,7 +101,9 @@ export default function RestaurantDetails(props) {
       <Bar />
       {!details ? <DummyPhotos /> : <Photos {...details} />}
       <Bar />
-      {!reviews ? null : (
+      {!reviews ? (
+        <DummyReviews />
+      ) : (
         <Reviews reviews={reviews.reviews} total={reviews.total} />
       )}
     </Main>
