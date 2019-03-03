@@ -1,9 +1,21 @@
 import styled from "styled-components";
 import React from "react";
 
-import { Header, Title, Stars, MiscInfo, Category, OpenStatus } from "./header";
+import {
+  Header as DummyHead,
+  Title,
+  Stars,
+  MiscInfo as DummyMiscInfo,
+  Category,
+  OpenStatus,
+} from "./header";
+import {
+  Photos as _DummyPhotos,
+  MapContainer,
+  MapCaption,
+  Img,
+} from "./photos";
 
-const DummyHead = styled(Header)``;
 const DummyTitle = styled(Title)`
   height: ${props => props.theme.fontSizeH1};
   background: ${props => props.theme.colorPlaceHolder};
@@ -13,7 +25,6 @@ const DummyStars = styled(Stars)`
   width: 157px;
   background: ${props => props.theme.colorPlaceHolder};
 `;
-const DummyMiscInfo = styled(MiscInfo)``;
 const DummyCategory = styled(Category)`
   height: 22px;
   width: 157px;
@@ -24,7 +35,6 @@ const DummyOpen = styled(OpenStatus)`
   width: 165px;
   background: ${props => props.theme.colorPlaceHolder};
 `;
-
 export function DummyHeader() {
   return (
     <DummyHead>
@@ -35,5 +45,26 @@ export function DummyHeader() {
         <DummyOpen />
       </DummyMiscInfo>
     </DummyHead>
+  );
+}
+
+const DummyMapContainer = styled(MapContainer)`
+  background: ${props => props.theme.colorPlaceHolder};
+`;
+const DummyMapCaption = styled(MapCaption)`
+  background: ${props => props.theme.colorPlaceHolder};
+`;
+const DummyImg = styled(Img)`
+  background: ${props => props.theme.colorPlaceHolder};
+`;
+
+export function DummyPhotos() {
+  return (
+    <_DummyPhotos>
+      <DummyMapContainer />
+      <DummyImg src={""} width={""} height={""} />
+      <DummyImg src={""} width={""} height={""} />
+      <DummyMapCaption />
+    </_DummyPhotos>
   );
 }

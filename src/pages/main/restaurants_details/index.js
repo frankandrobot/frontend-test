@@ -6,52 +6,17 @@ import axios from "axios";
 import { CancelToken } from "axios";
 
 import Bar from "../../../components/ui/bar";
-import _Img from "../../../components/ui/img";
 
 import Reviews from "./reviews";
 import Header from "./header";
-import { DummyHeader } from "./details_placeholder";
+import Photos from "./photos";
+import { DummyHeader, DummyPhotos } from "./details_placeholder";
 
 export const Main = styled.main`
   padding: 0;
   margin: 0;
   padding-top: 36px;
   min-width: ${props => props.theme.bodyWidthPx + "px"};
-`;
-
-const Photos = styled.section`
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  padding-left: ${props => props.theme.bodyPaddingLeft};
-  padding-right: ${props => props.theme.bodyPaddingRight};
-  padding-top: 49px;
-  padding-bottom: 49px;
-`;
-
-const MapContainer = styled.div`
-  display: inline-block;
-  width: 640px;
-  height: 228px;
-  background: ${props => props.theme.backgroundImg};
-  float: left;
-  margin-bottom: 15px;
-  margin-right: 32px;
-`;
-
-const MapCaption = styled.span`
-  display: block;
-  font-family: ${props => props.theme.fontFamily};
-  font-size: 20px;
-  font-weight: ${props => props.theme.fontWeightLight};
-  color: black;
-  clear: both;
-`;
-
-const Img = styled(_Img)`
-  float: left;
-  margin-bottom: 15px;
-  margin-right: 32px;
 `;
 
 export default function RestaurantDetails(props) {
@@ -134,15 +99,7 @@ export default function RestaurantDetails(props) {
     <Main>
       {!details ? <DummyHeader /> : <Header {...details} />}
       <Bar />
-      {!details ? null : (
-        <Photos>
-          <MapContainer />
-          {details.photos.slice(0, 2).map((src, i) => (
-            <Img key={i} width={"304px"} height={"228px"} src={src} />
-          ))}
-          <MapCaption>{details.location.display_address}</MapCaption>
-        </Photos>
-      )}
+      {!details ? <DummyPhotos /> : <Photos {...details} />}
       <Bar />
       {!reviews ? null : (
         <Reviews reviews={reviews.reviews} total={reviews.total} />
