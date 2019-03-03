@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import _Stars from "../../../components/ui/stars";
 import Button from "../../../components/ui/button_square";
+import Img from "../../../components/ui/img";
 
 export const Tile = styled.div`
   position: relative;
@@ -19,23 +20,6 @@ export const ImgContainer = styled.div`
   overflow: hidden;
   background: ${props => props.theme.backgroundImg};
 `;
-
-const landscape = `min-width: 304px; width: auto; height: 100%`;
-const portrait = `width: 100%; height: auto; min-height: 228px;`;
-
-function handleImgOnLoad(evt) {
-  const node = evt.target;
-  let landscapeMode = node.offsetWidth > node.offsetHeight;
-  node.setAttribute("style", landscapeMode ? landscape : portrait);
-}
-
-function Img({ src }) {
-  return <img src={src} onLoad={handleImgOnLoad} />;
-}
-
-Img.propTypes = {
-  src: PropTypes.string.isRequired,
-};
 
 export const Name = styled.h1`
   margin: 0;
@@ -129,9 +113,7 @@ export const LearnMoreBtn = styled(Button)`
 export default function TileComponent(props) {
   return (
     <Tile className={props.className}>
-      <ImgContainer>
-        <Img src={props.image_url} />
-      </ImgContainer>
+      <Img src={props.image_url} width={"100%"} height={"228px"} />
       <Name>{props.name}</Name>
       <Stars rating={props.rating} max={5} />
       <MiscInfo>
