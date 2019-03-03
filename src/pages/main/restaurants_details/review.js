@@ -3,25 +3,16 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import _Stars from "../../../components/ui/stars";
+import Img from "../../../components/ui/img";
 
 const Container = styled.div`
   margin: 0;
   padding: 0;
 `;
 
-const ReviewerPhoto = styled.div`
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  background: ${props => props.theme.backgroundImg};
+const ReviewerPhoto = styled(Img)`
   float: left;
   margin-right: 32px;
-  overflow: hidden;
-
-  & > img {
-    width: 80px;
-    height: auto;
-  }
 `;
 
 const ReviewerInfo = styled.div`
@@ -70,9 +61,11 @@ const Text = styled.div`
 export default function Review(props) {
   return (
     <Container>
-      <ReviewerPhoto>
-        <img src={props.user.image_url} />
-      </ReviewerPhoto>
+      <ReviewerPhoto
+        src={props.user.image_url}
+        width={"80px"}
+        height={"80px"}
+      />
       <ReviewerInfo>
         <ReviewerName>{props.user.name}</ReviewerName>
         <Date>{props.time_created}</Date>
