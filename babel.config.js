@@ -8,7 +8,7 @@ const presets = [
       targets:
         "last 3 chrome version and " +
         "last 3 safari version and " +
-        "last 3 firefox version and ",
+        "last 3 firefox version",
     },
   ],
   "@babel/preset-react",
