@@ -8,9 +8,7 @@ const presets = [
       targets:
         "last 3 chrome version and " +
         "last 3 safari version and " +
-        "last 3 firefox version and " +
-        "ie 11 and " +
-        "edge >= 1",
+        "last 3 firefox version and ",
     },
   ],
   "@babel/preset-react",
@@ -26,7 +24,7 @@ const plugins = [
   ],
   // let [a, b, ...rest] = arr;
   "@babel/plugin-transform-destructuring",
-  // makes writing classes simpler
+  // makes writing React classes simpler
   "@babel/plugin-proposal-class-properties",
 ];
 

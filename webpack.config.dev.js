@@ -8,6 +8,7 @@ Object.assign(config, {
   devServer: {
     contentBase: "./",
     publicPath: "./dist",
+    host: "0.0.0.0",
   },
   plugins: (config.plugins || []).concat([
     new webpack.DefinePlugin({

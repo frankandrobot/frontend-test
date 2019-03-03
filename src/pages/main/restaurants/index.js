@@ -111,7 +111,7 @@ export default function Restaurants() {
           if (axios.isCancel(thrown)) {
             // cancelled ignore
           } else {
-            console.log("something bad happened, retrying", thrown);
+            console.log("something bad happened, retrying", { thrown });
             setLoad(true);
           }
         });
