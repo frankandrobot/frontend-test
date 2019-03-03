@@ -6,14 +6,15 @@ import {
   Tile,
   ImgContainer as RealImgContainer,
   Name as RealName,
+  Stars as RealStars,
   MiscInfo as RealMisc,
   Category as RealCategory,
-  Price as RealPrice,
   OpenStatus as RealOpenStatus,
+  LearnMoreBtn,
 } from "./tile";
 
 const ImgContainer = styled(RealImgContainer)`
-  background: ${props => props.theme.colorTileLightGray};
+  background: ${props => props.theme.colorPlaceHolder};
 `;
 
 const Name = styled(RealName)`
@@ -22,28 +23,36 @@ const Name = styled(RealName)`
   padding: 0;
   margin-top: 16px;
   margin-bottom: 6px;
-  background: ${props => props.theme.colorTileLightGray};
+  background: ${props => props.theme.colorPlaceHolder};
 `;
 
-const Stars = styled.div`
-  line-height: 1;
-  height: 12px;
+const Stars = styled(RealStars)`
   width: 35%;
-  background: ${props => props.theme.colorTileLightGray};
+  background: ${props => props.theme.colorPlaceHolder};
 `;
 
 const Misc = styled(RealMisc)``;
 
-const CatPrice = styled(RealPrice)`
-  height: 12px;
+const Category = styled(RealCategory)`
+  height: 16px;
   width: 35%;
-  background: ${props => props.theme.colorTileLightGray};
+  background: ${props => props.theme.colorPlaceHolder};
 `;
 
 const OpenStatus = styled(RealOpenStatus)`
-  height: 12px;
+  height: 16px;
   width: 35%;
-  background: ${props => props.theme.colorTileLightGray};
+  background: ${props => props.theme.colorPlaceHolder};
+`;
+
+const Button = styled(LearnMoreBtn)`
+  background: ${props => props.theme.colorPlaceHolder};
+  border: 1px solid ${props => props.theme.colorPlaceHolder};
+
+  :hover,
+  :active {
+    background: ${props => props.theme.colorPlaceHolder};
+  }
 `;
 
 export default function DummyTileComponent(props) {
@@ -51,11 +60,12 @@ export default function DummyTileComponent(props) {
     <Tile className={props.className}>
       <ImgContainer />
       <Name />
-      <Stars />
+      <Stars rating={0} max={0} />
       <Misc>
-        <CatPrice />
+        <Category />
         <OpenStatus />
       </Misc>
+      <Button/>
     </Tile>
   );
 }

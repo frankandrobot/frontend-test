@@ -48,8 +48,9 @@ export const Name = styled.h1`
   padding-bottom: 7px;
 `;
 
-const Stars = styled(_Stars)`
+export const Stars = styled(_Stars)`
   font-size: 20px;
+  height: 20px;
 `;
 
 export const MiscInfo = styled.div`
@@ -97,7 +98,7 @@ export const Status = styled.span`
   margin-right: 4px;
 `;
 
-const LearnMoreBtn = styled(Button)`
+export const LearnMoreBtn = styled(Button)`
   position: absolute;
   bottom: 0;
   left: 0;

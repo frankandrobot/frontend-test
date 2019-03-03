@@ -19,7 +19,7 @@ export default {
   marginRightFilter: "25px",
   colorFilterBottomBar: "#c8c8c8",
   /* tiles */
-  colorTileLightGray: "#efefef",
+  colorPlaceHolder: "#efefef",
   widthTilePx: 304,
   marginRightTilePx: 32,
 };
