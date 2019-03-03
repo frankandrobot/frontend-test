@@ -5,20 +5,12 @@ import styled from "styled-components";
 import axios from "axios";
 import { CancelToken } from "axios";
 
-import _Stars from "../../../components/ui/stars";
 import Bar from "../../../components/ui/bar";
 import _Img from "../../../components/ui/img";
 
-import {
-  MiscInfo as _MiscInfo,
-  Category as _Category,
-  Price as _Price,
-  OpenStatus as _OpenStatus,
-  Status as _Status,
-} from "../restaurants/tile";
-
 import Reviews from "./reviews";
 import Header from "./header";
+import { DummyHeader } from "./details_placeholder";
 
 export const Main = styled.main`
   padding: 0;
@@ -140,7 +132,7 @@ export default function RestaurantDetails(props) {
 
   return (
     <Main>
-      {!details ? null : <Header {...details} />}
+      {!details ? <DummyHeader /> : <Header {...details} />}
       <Bar />
       {!details ? null : (
         <Photos>
