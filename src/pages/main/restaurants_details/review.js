@@ -8,6 +8,7 @@ import Img from "../../../components/ui/img";
 const Container = styled.div`
   margin: 0;
   padding: 0;
+  overflow: auto;
 `;
 
 const ReviewerPhoto = styled(Img)`
@@ -51,14 +52,23 @@ const Stars = styled(_Stars)`
   margin-bottom: 19px;
 `;
 
-const Text = styled.div`
+const Text = styled.p`
   font-family: ${props => props.theme.fontFamily};
   font-weight: ${props => props.theme.fontWeightLight};
   font-size: 20px;
   color: black;
+  margin-bottom: 34px;
+
+  :last-child {
+    margin-bottom: 0;
+  }
 `;
 
 export default function Review(props) {
+  const pars = props.text
+    .split(/\n+/)
+    .map((par, i) => <Text key={i}>{par}</Text>);
+
   return (
     <Container>
       <ReviewerPhoto
@@ -72,11 +82,15 @@ export default function Review(props) {
       </ReviewerInfo>
       <Body>
         <Stars rating={props.rating} max={5} />
-        <Text>{props.text}</Text>
+        {pars}
       </Body>
     </Container>
   );
 }
+
+Review.defaultProps = {
+  text: "",
+};
 
 Review.propTypes = {
   user: PropTypes.object.isRequired,

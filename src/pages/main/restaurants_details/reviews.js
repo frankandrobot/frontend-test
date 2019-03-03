@@ -10,6 +10,7 @@ const Section = styled.section`
   margin: 0;
   padding: 0;
   margin-top: 48px;
+  margin-bottom: 48px;
   padding-left: ${props => props.theme.bodyPaddingLeft};
   padding-right: ${props => props.theme.bodyPaddingRight};
 `;
@@ -29,6 +30,7 @@ const ReviewContainer = styled.div`
 
 const Bar = styled(_Bar)`
   margin-top: 73px;
+  margin-bottom: 73px;
 `;
 
 export default function Reviews(props) {
