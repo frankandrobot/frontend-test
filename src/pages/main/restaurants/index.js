@@ -12,15 +12,9 @@ import Tiles from "./tiles";
 
 import toMap from "../../../utils/toMap";
 import theme from "../../../components/theme";
+import Bar from "../../../components/ui/bar";
 
 const Main = styled.main``;
-
-const Bar = styled.hr`
-  color: ${props => props.theme.colorLine}; /* old IE */
-  background-color: ${props => props.theme.colorLine};
-  border: none;
-  height: 1px;
-`;
 
 const FilterTitle = styled.h2`
   font-family: ${props => props.theme.fontFamily};

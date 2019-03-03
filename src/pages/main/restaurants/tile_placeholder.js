@@ -6,8 +6,9 @@ import {
   Tile,
   ImgContainer as RealImgContainer,
   Name as RealName,
-  Misc as RealMisc,
-  CatPrice as RealCatPrice,
+  MiscInfo as RealMisc,
+  Category as RealCategory,
+  Price as RealPrice,
   OpenStatus as RealOpenStatus,
 } from "./tile";
 
@@ -33,7 +34,7 @@ const Stars = styled.div`
 
 const Misc = styled(RealMisc)``;
 
-const CatPrice = styled(RealCatPrice)`
+const CatPrice = styled(RealPrice)`
   height: 12px;
   width: 35%;
   background: ${props => props.theme.colorTileLightGray};

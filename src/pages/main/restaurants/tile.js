@@ -17,7 +17,7 @@ export const ImgContainer = styled.div`
   width: 100%;
   height: 228px;
   overflow: hidden;
-  background: #d8d8d8;
+  background: ${props => props.theme.backgroundImg};
 `;
 
 const landscape = `min-width: 304px; width: auto; height: 100%`;
@@ -68,7 +68,7 @@ export const Category = styled.div`
   font-family: ${props => props.theme.fontFamily};
   color: #757575;
   text-transform: uppercase;
-  max-width: 125px;
+  max-width: ${props => (props.cropWidth ? "125px" : "none")};
 `;
 
 export const Price = styled(Category)`
@@ -134,8 +134,10 @@ export default function TileComponent(props) {
       <Name>{props.name}</Name>
       <Stars rating={props.rating} max={5} />
       <MiscInfo>
-        <Category>{props.categories[0].title}</Category>
-        <Price>{props.price}</Price>
+        <Category cropWidth={!!props.price}>
+          {props.categories[0].title}
+        </Category>
+        {props.price ? <Price>{props.price}</Price> : null}
         <OpenStatus>
           <Status />
           {props.is_closed ? "closed" : "open now"}

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import theme from "../components/theme";
 
 import RestaurantPage from "./main/restaurants";
+import RestaurantDetails from "./main/restaurants_details";
 
 const Container = styled.div`
   min-width: ${props => props.theme.bodyWidthPx + "px"};
@@ -14,7 +15,7 @@ const Container = styled.div`
 function Restaurants({ match }) {
   return (
     <div>
-      <Route path={`${match.path}/:id`} component={RestaurantPage} />
+      <Route path={`${match.path}/:id`} component={RestaurantDetails} />
       <Route exact path={match.path} component={RestaurantPage} />
     </div>
   );

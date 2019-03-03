@@ -10,6 +10,8 @@ export default {
   colorLine: "#e6e6e6",
   bodyWidthPx: 1312 + 2 * bodySideMarginPx,
   bodySideMarginPx,
+  fontSizeH1: "54px",
+  backgroundImg: "#D8D8D8",
   /* filter */
   colorFilterBy: "#606060",
   colorFilterText: "#002B56",
