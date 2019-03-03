@@ -18,80 +18,13 @@ import {
 } from "../restaurants/tile";
 
 import Reviews from "./reviews";
+import Header from "./header";
 
 export const Main = styled.main`
   padding: 0;
   margin: 0;
   padding-top: 36px;
   min-width: ${props => props.theme.bodyWidthPx + "px"};
-`;
-
-export const Header = styled.header`
-  padding: 0;
-  margin: 0;
-  padding-left: ${props => props.theme.bodyPaddingLeft};
-  padding-right: ${props => props.theme.bodyPaddingRight};
-  margin-bottom: 42px;
-`;
-
-export const Title = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-family: ${props => props.theme.fontFamily};
-  font-weight: ${props => props.theme.fontWeightLight};
-  font-size: ${props => props.theme.fontSizeH1};
-  color: ${props => props.theme.colorHeading};
-  margin-bottom: 16px;
-`;
-
-export const Stars = styled(_Stars)`
-  height: 30px;
-  font-size: 30px;
-  padding: 0;
-  margin: 0;
-`;
-
-export const MiscInfo = styled(_MiscInfo)`
-  margin: 0;
-  padding: 0;
-  margin-top: 16px;
-  width: 100%;
-  height: 22px;
-  line-height: 1;
-`;
-
-export const Category = styled(_Category)`
-  font-size: 22px;
-  font-weight: ${props => props.theme.fontWeightLight};
-  color: #666666;
-  max-width: none;
-  text-transform: none;
-`;
-
-export const Price = styled(_Price)`
-  font-size: 22px;
-  font-weight: ${props => props.theme.fontWeightLight};
-  color: #666666;
-  text-transform: none;
-
-  :before {
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-`;
-
-export const OpenStatus = styled(_OpenStatus)`
-  font-size: 22px;
-  font-weight: ${props => props.theme.fontWeightLight};
-  color: #666666;
-  text-transform: none;
-  margin-bottom: -3px;
-`;
-
-const Status = styled(_Status)`
-  height: 22px;
-  width: 22px;
-  margin-right: 8px;
 `;
 
 const Photos = styled.section`
@@ -159,7 +92,7 @@ export default function RestaurantDetails(props) {
           if (axios.isCancel(thrown)) {
             // cancelled ignore
           } else {
-            console.log("something bad happened, retrying", thrown);
+            console.log("something bad happened, retrying", { thrown });
             setLoadDetails(true);
           }
         });
@@ -191,7 +124,7 @@ export default function RestaurantDetails(props) {
           if (axios.isCancel(thrown)) {
             // cancelled ignore
           } else {
-            console.log("something bad happened, retrying", thrown);
+            console.log("something bad happened, retrying", { thrown });
             setLoadReviews(true);
           }
         });
@@ -207,20 +140,7 @@ export default function RestaurantDetails(props) {
 
   return (
     <Main>
-      {!details ? null : (
-        <Header>
-          <Title>{details.name}</Title>
-          <Stars rating={details.rating} max={5} />
-          <MiscInfo>
-            <Category>{details.categories[0].title}</Category>
-            {details.price ? <Price>{details.price}</Price> : null}
-            <OpenStatus>
-              <Status />
-              {details.is_closed ? "closed" : "Open Now"}
-            </OpenStatus>
-          </MiscInfo>
-        </Header>
-      )}
+      {!details ? null : <Header {...details} />}
       <Bar />
       {!details ? null : (
         <Photos>
