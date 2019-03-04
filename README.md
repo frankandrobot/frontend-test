@@ -1,98 +1,96 @@
-# Superformula Front-end Developer Coding Test
+## Overview
 
-Be sure to read **all** of this document carefully, and follow the guidelines within.
+### Setup Proxy Server (Prequisites)
 
-## Context
+- Use your own or run `npm run proxy` (make sure to first `yarn install`).
+- Set `<PROJECT_ROOT>/api.url` with the URL of the proxy server. Webpack will
+  bake this API URL into the App. Example:
+  ```ini
+  http://localhost:8010/proxy
+  ```
+- Set `<PROJECT_ROOT>/api.key` with your Yelp API key. Webpack will back this
+  API KEY into the App.
 
-Use HTML, CSS, and JavaScript to implement the following mock-up. You will need to leverage an open API for restaurant data to fill in the details and functionality as described below. You are only required to complete the desktop views, unless otherwise instructed.
+### Running
 
-![Superformula-front-end-test-mockup](./mockup.png)
-
-Use this Sketch file to see button states, colors, and responsive design.
-
-> [Source Sketch file](Superformula-FE-test-264388d.sketch)
-
-## Requirements
-
-### Yelp API
-
-You can ask us and we will provide you a Yelp API Key to use for your PR.
-
-> NOTE: Yelp's API does not allow CORS. To get around this, you will need to setup a local proxy with CORS support and proxy your requets to Yelp's endpoints.
-
-### Page Structure
-
-```
-Main
-  - Filter navigation
-    - Open now (client side filter)
-    - Price (client side filter)
-    - Categories/Cuisines (server side search filter)
-  - Section
-    - Restaurant item
-      - Image (use first item in `photos`)
-      - Cuisine / Categories (use first item in `categories`)
-      - Rating
-      - Price range
-      - Open / Closed
-      - Restaurant name
-      - Learn more (open modal to show more details)
-Detail View
-  - Restaurant Name & Rating
-  - Map (optional, if time allows)
-  - Section
-    - Review item
-      - Image
-      - Name
-      - Rating
-      - Text
+```bash
+yarn install
+npm run build:dev
+npm run start
 ```
 
-### Functionality
+### Tests
 
-- The filter navigation needs to be able to perform real time filtering on both client side data, as well as server side queries.
-- Yelp's `/businesses/search` endpoint requires a `location`, please use `Las Vegas`
-- `Categories` can be pre-filled from the [Categories endpoint](https://www.yelp.com/developers/documentation/v3/all_categories)
-- The items should always show 4-6 items per row depending on viewport size. Use your own judgement for when to change per breakpoints.
-- Please see the [Yelp documentation](https://www.yelp.com/developers/documentation/v3) for more details.
+```bash
+npm test
+```
 
-### Tech stack
+## Design
 
-- JS oriented
-  - Use **React**.
-  - _Do not_ use any React boilerplate, such as Create React App
-- Feel free to use a preprocessor like SASS/SCSS/Less but _do not_ use any CSS frameworks or libraries.
+### Tooling
+- `eslint` checks for syntax errors.
+- `babel`
+  - is used together with `eslint` to check for JSX syntax errors
+  - provides easier React classes (binding class methods to `this` not
+    necessary!)
+  - currently configured to support latest browsers but can be extended to
+    support +IE10 and Edge.
+- `prettier` support so that you don't have to worry about formatting.
+- `webpack`, which is harder to config than `parceljs` but is more battle
+  tested. Currently configured only for a development environment.
+- `local-cors-proxy`, which does what it's name says.
+- `jest` and `react-test-renderer` provide unit tests.
 
-### Bonus
+### CSS
 
-- Also create mobile version included in Sketch comp.
-- Write clear **documentation** on how the app was designed and how to run the code.
-- Provide proper unit tests.
-- Provide components in [Storybook](https://storybook.js.org) with tests.
-- Use Yelp's [Graph QL](https://www.yelp.com/developers/graphql/guides/intro) endpoint
-- Write concise and clear commit messages.
-- Provide an online demo of the application.
-- Include subtle animations to focus attention
-- Describe optimization opportunities when you conclude
+Early on I chose to use `styled-components` instead of SASS. It has several
+advantages:
+- makes it super easy to style React components.
+- addresses the "CSS is a giant global" problem that can make it hard to
+  maintain CSS.
+- it has tree shaking out of the box (since a styled component is just JS).
+- it has server-side rendering support out of the box.
 
-## What We Care About
+### State Management and AJAX Requests
 
-Use any libraries that you would normally use if this were a real production App. Please note: we're interested in your code & the way you solve the problem, not how well you can use a particular library or feature.
+In the past, I would have used `redux` for state management and `redux-saga` or
+`RxJS` for coordinating AJAX calls. However, these solutions can be bulky to use
+(boilerplate) and have steep learning curves. Not surprisingly, I've seen teams
+struggle using these tools. So for this app, I decided to use React hooks. Hooks
+provide mechanisms for both handling state and making side effects, like AJAX
+requests.
 
-_We're interested in your method and how you approach the problem just as much as we're interested in the end result._
+### App Structure
 
-Here's what you should strive for:
+The app structure is inspired by a recent VueJS article:
+  - `components` - are sharable components
+     - `ui` - components with no business-logic (pure UI)
+  - `pages` - layout 
+     - restaurants - the Restaurants page
+     - restaurant_details - the RestaurantDetails page
 
-- Good use of current HTML, CSS, and JavaScript & performance best practices.
-- Solid testing approach.
-- Extensible code.
+### UX 
 
-## Q&A
+- If a user clicks "Load More" and then selects a client-side filter, the
+  Restaurant page view resets, showing the first page. This is the simplest
+  approach used in the wild (ex: StackOverflow).
+- "Placeholder" components are displayed instead of spinners while loading Yelp
+  data. 
+- The Price and Category dropdowns are unordered-lists under the hood. This is
+  because it's not possible to style select/option elements. Unfortunately, this
+  also means we need to re-invent the wheel for things like proper Web
+  accessability. The current version does *not* have proper accessability
+  support.
+- In Tile views, categories can take up the entire Tile width (ex: "breakfast &
+  brunch"). I took a simple approach that's faithful to the original design:
+  Render the category vertically when it takes up too much horizontal space
+  ```
+  | Really   * Price      Open  |
+  | long                        |
+  | Category                    |
+  ```
 
-> Where should I send back the result when I'm done?
-
-Fork this repo and send us a pull request when you think you are done. There is no deadline for this task unless otherwise noted to you directly.
-
-> What if I have a question?
-
-Just create a new issue in this repo and we will respond and get back to you quickly.
+## Optimization Opportunities
+ - minification - as stated earlier, a production build is *not* provided.
+   Minifying the bundle can reduce the bundle size.
+ - code splitting - can help reduce the initial load time even further. 
