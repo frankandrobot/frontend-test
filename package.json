@@ -2,7 +2,7 @@
   "name": "superformula",
   "version": "1.0.0",
   "main": "src/index.js",
-  "author": "Uriel Avalos <uriel@rstudio.com>",
+  "author": "Uriel Avalos",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.3.4",
